@@ -2,7 +2,7 @@
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
-import { useActionState, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { z } from 'zod';
 import { Button } from '@/components/ui/button';
 import {
@@ -18,7 +18,6 @@ import { Input } from '@/components/ui/input';
 import { Switch } from '@/components/ui/switch';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import type { Product, SubProduct } from '@/types';
-import { initiatePurchase, type PurchaseFormState } from '@/lib/actions';
 import { useToast } from '@/hooks/use-toast';
 import { useRouter, useParams } from 'next/navigation';
 import { MOCK_USER_PROFILE, PATHS } from '@/lib/constants';
@@ -27,43 +26,34 @@ import { Terminal } from 'lucide-react';
 import { useTranslation } from '@/hooks/useTranslation';
 import type { Locale } from '@/lib/i18n-config';
 
-const purchaseFormSchemaBase = z.object({
+const purchaseFormSchema = z.object({
   productId: z.string(),
   productName: z.string(),
   subProductId: z.string().optional(),
   subProductName: z.string().optional(),
   amount: z.number().positive(),
+  login: z.string().optional(),
+  password: z.string().optional(),
+  twoFactorEnabled: z.boolean().optional(),
 });
 
-const authDetailsSchema = z.object({
-  login: z.string().min(1, 'Логин обязателен.'),
-  password: z.string().min(1, 'Пароль обязателен.'),
-  twoFactorEnabled: z.boolean().default(false),
-});
+type PurchaseFormValues = z.infer<typeof purchaseFormSchema>;
 
-type PurchaseFormProps = {
-  product: Product;
-  selectedSubProduct?: SubProduct;
-};
-
-export default function PurchaseForm({ product, selectedSubProduct }: PurchaseFormProps) {
+export default function PurchaseForm({ product, selectedSubProduct }: { product: Product; selectedSubProduct?: SubProduct }) {
   const { toast } = useToast();
   const router = useRouter();
   const params = useParams();
   const { t, locale } = useTranslation(params.locale as Locale);
 
   const [showAuthFields, setShowAuthFields] = useState(product.requiresAuthDetails || false);
+  const [userBalance, setUserBalance] = useState(MOCK_USER_PROFILE.balance);
+  const [isPending, setIsPending] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const finalPrice = selectedSubProduct?.price ?? product.price ?? 0;
 
-  const currentFormSchema = showAuthFields
-    ? purchaseFormSchemaBase.merge(authDetailsSchema)
-    : purchaseFormSchemaBase;
-
-  type PurchaseFormValues = z.infer<typeof currentFormSchema>;
-
   const form = useForm<PurchaseFormValues>({
-    resolver: zodResolver(currentFormSchema),
+    resolver: zodResolver(purchaseFormSchema),
     defaultValues: {
       productId: product.id,
       productName: product.name,
@@ -75,9 +65,6 @@ export default function PurchaseForm({ product, selectedSubProduct }: PurchaseFo
       twoFactorEnabled: false,
     },
   });
-
-  const [state, formAction, isPending] = useActionState<PurchaseFormState | undefined, FormData>(initiatePurchase, undefined);
-  const [userBalance, setUserBalance] = useState(MOCK_USER_PROFILE.balance);
 
   useEffect(() => {
     if (product.requiresAuthDetails) {
@@ -91,34 +78,7 @@ export default function PurchaseForm({ product, selectedSubProduct }: PurchaseFo
     form.setValue('subProductName', selectedSubProduct?.name);
   }, [selectedSubProduct, finalPrice, form]);
 
-  useEffect(() => {
-    if (state?.success && state.redirectToPath) {
-      toast({
-        title: t('product_details_page.purchase_form_purchase_successful_title'),
-        description: state.message,
-      });
-      router.push(state.redirectToPath);
-      setUserBalance(currentBalance => currentBalance - finalPrice); // Update balance locally
-    } else if (state?.message && !state.success) {
-      const isInsufficientBalanceError = state.errors?.general?.includes(t('product_details_page.purchase_form_insufficient_balance_description'));
-      toast({
-        title: isInsufficientBalanceError ? t('product_details_page.purchase_form_insufficient_balance_title') : t('product_details_page.purchase_form_purchase_failed_title'),
-        description: state.message,
-        variant: 'destructive',
-      });
-      if(isInsufficientBalanceError){
-        setTimeout(() => router.push(`/${locale}${PATHS.TOP_UP}`), 2000);
-      }
-    } else if (state?.errors && !state.success) {
-        toast({
-            title: t('product_details_page.purchase_form_purchase_failed_title'),
-            description: state.message || t('product_details_page.purchase_form_invalid_data_message'),
-            variant: 'destructive',
-        });
-    }
-  }, [state, toast, router, finalPrice, locale, t]);
-
-  const handleBuyClick = () => {
+  const handleBuyClick = form.handleSubmit(async (data) => {
     if (userBalance < finalPrice) {
       toast({
         title: t('product_details_page.purchase_form_insufficient_balance_title'),
@@ -128,17 +88,42 @@ export default function PurchaseForm({ product, selectedSubProduct }: PurchaseFo
       setTimeout(() => router.push(`/${locale}${PATHS.TOP_UP}`), 2000);
       return;
     }
-    form.handleSubmit((data) => {
-      const formData = new FormData();
-      Object.entries(data).forEach(([key, value]) => {
-        if (value !== undefined && value !== null) {
-          formData.append(key, String(value));
-        }
+    setIsPending(true);
+    setError(null);
+    try {
+      // Здесь должен быть твой API endpoint для покупки
+      const response = await fetch('/api/purchase', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ...data, locale }),
       });
-      formData.append('locale', locale);
-      formAction(formData);
-    })();
-  };
+      const result = await response.json();
+      if (result.success && result.redirectToPath) {
+        toast({
+          title: t('product_details_page.purchase_form_purchase_successful_title'),
+          description: result.message,
+        });
+        router.push(result.redirectToPath);
+        setUserBalance(currentBalance => currentBalance - finalPrice);
+      } else {
+        toast({
+          title: t('product_details_page.purchase_form_purchase_failed_title'),
+          description: result.message || t('product_details_page.purchase_form_invalid_data_message'),
+          variant: 'destructive',
+        });
+        setError(result.message || t('product_details_page.purchase_form_invalid_data_message'));
+      }
+    } catch (e: any) {
+      toast({
+        title: t('product_details_page.purchase_form_purchase_failed_title'),
+        description: e.message || 'Ошибка сети',
+        variant: 'destructive',
+      });
+      setError(e.message || 'Ошибка сети');
+    } finally {
+      setIsPending(false);
+    }
+  });
 
   return (
     <Card className="w-full max-w-lg bg-card/80 backdrop-blur-md shadow-xl">
@@ -154,7 +139,7 @@ export default function PurchaseForm({ product, selectedSubProduct }: PurchaseFo
         </CardDescription>
       </CardHeader>
       <Form {...form}>
-        <form onSubmit={(e) => { e.preventDefault(); handleBuyClick(); }} className="space-y-0">
+        <form onSubmit={handleBuyClick} className="space-y-0">
           <CardContent className="space-y-6">
             <input type="hidden" {...form.register('productId')} />
             <input type="hidden" {...form.register('productName')} />
@@ -213,16 +198,13 @@ export default function PurchaseForm({ product, selectedSubProduct }: PurchaseFo
               </>
             )}
 
-            {state?.message && !state.success && state.errors?.general && (
-                 <Alert variant="destructive">
-                   <Terminal className="h-4 w-4" />
-                   <AlertTitle>{t('product_details_page.purchase_form_error_alert_title')}</AlertTitle>
-                   <AlertDescription>
-                     {state.errors.general.join(', ')}
-                   </AlertDescription>
-                 </Alert>
-               )}
-
+            {error && (
+              <Alert variant="destructive">
+                <Terminal className="h-4 w-4" />
+                <AlertTitle>{t('product_details_page.purchase_form_error_alert_title')}</AlertTitle>
+                <AlertDescription>{error}</AlertDescription>
+              </Alert>
+            )}
           </CardContent>
           <CardFooter>
             <Button type="submit" className="w-full btn-glow" disabled={isPending || userBalance < finalPrice}>
