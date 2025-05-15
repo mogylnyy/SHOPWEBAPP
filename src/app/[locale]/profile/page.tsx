@@ -16,7 +16,7 @@ async function getUserProfile(): Promise<UserProfile> {
 
 export default async function ProfilePage({ params }: { params: { locale: Locale }}) {
   const user = await getUserProfile();
-  const { t } = getTranslations(params.locale); // Changed from useTranslation
+  const { t } = await getTranslations(params.locale); // Changed from useTranslation
 
   return (
     <div className="max-w-2xl mx-auto">

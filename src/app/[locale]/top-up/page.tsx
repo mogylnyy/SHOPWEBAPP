@@ -9,7 +9,7 @@ import { getTranslations } from '@/lib/i18n-server'; // Changed from useTranslat
 import type { Locale } from '@/lib/i18n-config';
 
 export default async function TopUpPage({ params }: { params: { locale: Locale }}) { // Made async
-  const { t } = getTranslations(params.locale); // Changed from useTranslation
+  const { t } = await getTranslations(params.locale); // Changed from useTranslation
 
   return (
     <div className="max-w-lg mx-auto">

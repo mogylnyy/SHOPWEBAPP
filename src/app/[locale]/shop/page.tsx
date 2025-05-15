@@ -12,7 +12,7 @@ async function getCategories(): Promise<Category[]> {
 
 export default async function ShopCategoriesPage({ params }: { params: { locale: Locale }}) {
   const categories = await getCategories();
-  const { t } = getTranslations(params.locale); // Changed from useTranslation
+  const { t } = await getTranslations(params.locale); // Changed from useTranslation
 
   return (
     <div className="space-y-8">

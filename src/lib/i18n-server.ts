@@ -1,4 +1,3 @@
-
 'use server';
 
 import type { Locale } from '@/lib/i18n-config';
@@ -25,7 +24,7 @@ function getNestedValue(obj: any, path: string): string | undefined {
   return typeof current === 'string' ? current : undefined;
 }
 
-export function getTranslations(locale: Locale) {
+export async function getTranslations(locale: Locale) {
   const selectedTranslations = loadedTranslations[locale] || loadedTranslations[i18n.defaultLocale];
 
   if (!selectedTranslations) {

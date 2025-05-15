@@ -20,7 +20,7 @@ async function getProductsByCategory(categoryId: string): Promise<Product[]> {
 
 export default async function CategoryProductsPage({ params }: { params: { category: string; locale: Locale } }) {
   const categoryId = params.category;
-  const { t } = getTranslations(params.locale); // Changed from useTranslation
+  const { t } = await getTranslations(params.locale); // Changed from useTranslation
   const category = await getCategoryDetails(categoryId);
   const products = await getProductsByCategory(categoryId);
 
