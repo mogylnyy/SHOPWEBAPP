@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useEffect, useState, Suspense } from 'react';
@@ -13,17 +12,14 @@ import { CheckCircle, Clipboard, MessageSquare } from 'lucide-react';
 function OrderConfirmationContent() {
   const searchParams = useSearchParams();
   const { toast } = useToast();
-  // The locale for useTranslation will be picked from path params by the hook itself
   const { t } = useTranslation(undefined);
 
   const [orderId, setOrderId] = useState<string | null>(null);
   const [productName, setProductName] = useState<string | null>(null);
-  const [subProductName, setSubProductName] = useState<string | null>(null);
   const [hasCopiedOrder, setHasCopiedOrder] = useState(false);
 
   const orderIdFromUrl = searchParams.get('orderId');
   const productNameFromUrl = searchParams.get('productName');
-  const subProductNameFromUrl = searchParams.get('subProductName');
 
   useEffect(() => {
     if (orderIdFromUrl !== orderId) {
@@ -32,10 +28,7 @@ function OrderConfirmationContent() {
     if (productNameFromUrl !== productName) {
       setProductName(productNameFromUrl);
     }
-    if (subProductNameFromUrl !== subProductName) {
-      setSubProductName(subProductNameFromUrl);
-    }
-  }, [orderIdFromUrl, productNameFromUrl, subProductNameFromUrl, orderId, productName, subProductName]);
+  }, [orderIdFromUrl, productNameFromUrl, orderId, productName]);
 
   if (!orderId || !productNameFromUrl) {
     return (
@@ -44,34 +37,26 @@ function OrderConfirmationContent() {
           <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
           <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
         </svg>
-        <p className="text-muted-foreground">{t('order_confirmation_page.loading_text')}</p>
+        <p className="text-muted-foreground">Загрузка...</p>
       </div>
     );
   }
 
   const decodedProductName = decodeURIComponent(productNameFromUrl);
-  const decodedSubProductName = subProductNameFromUrl ? decodeURIComponent(subProductNameFromUrl) : null;
-
-  const fullProductName = decodedSubProductName ? `${decodedProductName} (${decodedSubProductName})` : decodedProductName;
-
-  const messageToCopy = `${t('order_confirmation_page.telegram_message_greeting')}
-
-${t('order_confirmation_page.order_id_label')} ${orderId}
-${t('order_confirmation_page.product_label')} ${fullProductName}`;
+  const message = `Здравствуйте! Я приобрел у вас товар: ${decodedProductName}.\nID заказа: ${orderId}\nТовар: ${decodedProductName}`;
 
   const handleCopy = () => {
-    navigator.clipboard.writeText(messageToCopy).then(() => {
+    navigator.clipboard.writeText(message).then(() => {
       setHasCopiedOrder(true);
       toast({
-        title: t('order_confirmation_page.copied_toast_title'),
-        description: t('order_confirmation_page.copied_toast_description'),
+        title: 'ID заказа скопирован',
+        description: 'Данные заказа скопированы в буфер обмена.',
       });
     }).catch(err => {
-      console.error("Failed to copy: ", err);
       toast({
-        title: t('order_confirmation_page.copy_error_toast_title'),
-        description: t('order_confirmation_page.copy_error_toast_description'),
-        variant: "destructive"
+        title: 'Ошибка',
+        description: 'Не удалось скопировать ID заказа',
+        variant: 'destructive',
       });
     });
   };
@@ -79,8 +64,8 @@ ${t('order_confirmation_page.product_label')} ${fullProductName}`;
   const handleGoToChat = () => {
     if (!hasCopiedOrder) {
       toast({
-        title: t('order_confirmation_page.copy_first_toast_title'),
-        description: t('order_confirmation_page.copy_first_toast_description'),
+        title: 'Сначала скопируйте ID заказа!',
+        description: '',
         variant: 'destructive',
       });
       return;
@@ -90,49 +75,34 @@ ${t('order_confirmation_page.product_label')} ${fullProductName}`;
 
   return (
     <div className="flex items-center justify-center min-h-[calc(100vh-10rem)] py-8 px-4">
-      <Card className="w-full max-w-lg bg-card/90 backdrop-blur-lg shadow-xl border-border">
-        <CardHeader className="text-center items-center pt-8">
-          <CheckCircle className="h-16 w-16 text-green-500 mb-4" />
-          <CardTitle className="text-3xl font-bold text-primary">
-            {t('order_confirmation_page.title')}
-          </CardTitle>
-        </CardHeader>
-        <CardContent className="px-6 pb-8 space-y-6">
-          <div className="text-left text-base bg-background/50 p-4 rounded-lg border border-border/70 shadow-sm">
-            <p className="mb-2"><strong className="text-muted-foreground">{t('order_confirmation_page.order_id_label')}</strong> <span className="font-mono text-accent">{orderId}</span></p>
-            <p><strong>{t('order_confirmation_page.product_label')}</strong> <span className="font-medium">{fullProductName}</span></p>
-          </div>
-
-          <div className="text-sm text-muted-foreground space-y-1 text-center">
-            <p>{t('order_confirmation_page.copy_instructions_1')}</p>
-            <p>{t('order_confirmation_page.copy_instructions_2')}</p>
-          </div>
-
-          <Button
-            onClick={handleCopy}
-            variant="outline"
-            size="lg"
-            className="w-full btn-glow border-primary hover:border-accent hover:bg-accent/10"
-          >
-            <Clipboard className="mr-2 h-5 w-5" />
-            {t('order_confirmation_page.copy_button_text')}
-          </Button>
-
-          <Button
-            onClick={handleGoToChat}
-            size="lg"
-            className={`w-full transition-all duration-200 font-semibold text-white
-              ${hasCopiedOrder
-                ? 'bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 shadow-lg hover:shadow-green-500/50'
-                : 'bg-muted text-muted-foreground cursor-not-allowed opacity-60 hover:bg-muted'
-              }`}
-            disabled={!hasCopiedOrder}
-          >
-            <MessageSquare className="mr-2 h-5 w-5" />
-            {t('order_confirmation_page.chat_button_text')}
-          </Button>
-        </CardContent>
-      </Card>
+      <div className="bg-neutral-900 text-white p-6 rounded-xl shadow-xl text-center w-full max-w-md mx-auto">
+        <h2 className="text-xl font-semibold mb-4">✅ Товар успешно оплачен!</h2>
+        <div className="text-left text-sm bg-neutral-800 p-4 rounded-lg mb-4">
+          <p><strong>🆔 ID заказа:</strong> {orderId}</p>
+          <p><strong>📦 Товар:</strong> {decodedProductName}</p>
+        </div>
+        <p className="text-sm text-gray-400 mb-2">
+          Скопируйте ID заказа и отправьте менеджеру.<br />
+          После перехода в чат вставьте скопированный текст!
+        </p>
+        <button
+          onClick={handleCopy}
+          className="bg-purple-700 hover:bg-purple-800 px-6 py-2 rounded-lg text-white mb-3 w-full font-semibold transition"
+        >
+          📋 Скопировать ID заказа
+        </button>
+        <button
+          onClick={handleGoToChat}
+          className={`px-6 py-2 rounded-lg w-full font-semibold transition mb-1 ${
+            hasCopiedOrder
+              ? 'bg-green-600 hover:bg-green-700 text-white'
+              : 'bg-gray-600 text-gray-300 cursor-not-allowed'
+          }`}
+          disabled={!hasCopiedOrder}
+        >
+          💬 Перейти в чат с менеджером
+        </button>
+      </div>
     </div>
   );
 }
