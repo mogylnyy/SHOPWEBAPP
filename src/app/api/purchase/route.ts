@@ -12,12 +12,13 @@ export async function POST(request: Request) {
     // Генерируем orderId и используем productName из запроса
     const orderId = generateOrderId();
     const productName = data.productName || '';
+    const subProductName = data.subProductName || '';
     const locale = data.locale || 'ru';
     // Возвращаем корректный redirectToPath
     return NextResponse.json({
       success: true,
       message: 'Покупка успешно оформлена!',
-      redirectToPath: `/${locale}/order-confirmation?orderId=${orderId}&productName=${encodeURIComponent(productName)}`,
+      redirectToPath: `/${locale}/order-confirmation?orderId=${orderId}&productName=${encodeURIComponent(productName)}${subProductName ? `&subProductName=${encodeURIComponent(subProductName)}` : ''}`,
     });
   } catch (e) {
     return NextResponse.json(
