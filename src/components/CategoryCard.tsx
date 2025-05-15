@@ -1,3 +1,4 @@
+
 import Link from 'next/link';
 import Image from 'next/image';
 import type { Category } from '@/types';
@@ -5,12 +6,16 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Button } from '@/components/ui/button';
 import { ArrowRight } from 'lucide-react';
 import { PATHS } from '@/lib/constants';
+import { useTranslation } from '@/hooks/useTranslation';
+import type { Locale } from '@/lib/i18n-config';
 
 type CategoryCardProps = {
   category: Category;
+  locale: Locale; // Added locale prop
 };
 
-export default function CategoryCard({ category }: CategoryCardProps) {
+export default function CategoryCard({ category, locale }: CategoryCardProps) {
+  const { t } = useTranslation(locale);
   return (
     <Card className="overflow-hidden h-full flex flex-col bg-card/70 backdrop-blur-md shadow-lg hover:shadow-primary/20 transition-shadow duration-300">
       <CardHeader className="p-0">
@@ -30,8 +35,8 @@ export default function CategoryCard({ category }: CategoryCardProps) {
       </CardContent>
       <CardFooter className="p-6 pt-0">
         <Button asChild variant="outline" className="w-full btn-glow">
-          <Link href={`${PATHS.SHOP}/${category.id}`}>
-            View Products <ArrowRight className="ml-2 h-4 w-4" />
+          <Link href={`/${locale}${PATHS.SHOP}/${category.id}`}>
+            {t('category_card.view_products_button')} <ArrowRight className="ml-2 h-4 w-4" />
           </Link>
         </Button>
       </CardFooter>

@@ -4,10 +4,10 @@
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { ShoppingCart, User, CreditCardIcon, HelpCircle, ArrowRight } from 'lucide-react'; // Ensure CreditCardIcon is imported if it's distinct from CreditCard
+import { ShoppingCart, User, CreditCardIcon, HelpCircle, ArrowRight } from 'lucide-react';
 import { PATHS } from '@/lib/constants';
 import { useTranslation } from '@/hooks/useTranslation';
-import type { Locale } from '@/lib/i18n-config';
+import type { Locale } from '@/lib/i18n-config'; // Updated import
 import type { LucideIcon } from 'lucide-react';
 
 interface MenuItem {
@@ -33,7 +33,7 @@ const menuItems: MenuItem[] = [
   {
     href: PATHS.TOP_UP,
     labelKey: 'home_page.menu.topUp.label',
-    iconComponent: CreditCardIcon, // Using CreditCardIcon as it's more standard for payment related items than just CreditCard
+    iconComponent: CreditCardIcon,
     descriptionKey: 'home_page.menu.topUp.description'
   },
   {

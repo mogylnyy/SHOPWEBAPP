@@ -1,5 +1,7 @@
+
 import Link from 'next/link';
 import { ShoppingBag } from 'lucide-react';
+// LanguageSwitcher removed as it's not needed for a single language setup
 
 export default function Header() {
   return (

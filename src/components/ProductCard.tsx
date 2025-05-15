@@ -1,13 +1,17 @@
+
 import Link from 'next/link';
 import Image from 'next/image';
 import type { Product } from '@/types';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { ArrowRight, Package } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import { PATHS } from '@/lib/constants';
+import { useTranslation } from '@/hooks/useTranslation';
+import type { Locale } from '@/lib/i18n-config';
 
 type ProductCardProps = {
   product: Product;
+  locale: Locale; // Added locale prop
 };
 
 function getPriceDisplay(product: Product): string {
@@ -23,7 +27,8 @@ function getPriceDisplay(product: Product): string {
   return product.price ? `$${product.price.toFixed(2)}` : 'N/A';
 }
 
-export default function ProductCard({ product }: ProductCardProps) {
+export default function ProductCard({ product, locale }: ProductCardProps) {
+  const { t } = useTranslation(locale);
   const priceDisplay = getPriceDisplay(product);
 
   return (
@@ -46,8 +51,8 @@ export default function ProductCard({ product }: ProductCardProps) {
       </CardContent>
       <CardFooter className="p-6 pt-0">
         <Button asChild variant="outline" className="w-full btn-glow">
-          <Link href={`${PATHS.SHOP}/${product.category}/${product.id}`}>
-            {product.subProducts && product.subProducts.length > 0 ? 'View Options' : 'View Details'}
+          <Link href={`/${locale}${PATHS.SHOP}/${product.category}/${product.id}`}>
+            {product.subProducts && product.subProducts.length > 0 ? t('product_card.view_options_button') : t('product_card.view_details_button')}
             <ArrowRight className="ml-2 h-4 w-4" />
           </Link>
         </Button>
