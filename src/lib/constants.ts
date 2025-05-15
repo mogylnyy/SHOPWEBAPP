@@ -9,6 +9,7 @@ export const PATHS = {
   PROFILE: '/profile',
   TOP_UP: '/top-up',
   HELP: '/help',
+  ORDER_CONFIRMATION: '/order-confirmation',
 };
 
 // Mock Data
@@ -35,7 +36,7 @@ export const MOCK_PRODUCTS: Product[] = [
     name: 'ChatGPT',
     description: 'Продвинутый ИИ-ассистент от OpenAI.', // Translated
     category: 'neural-networks',
-    image: 'https://i.ibb.co/k29PxyXk/CHATGPTBOTTG.png', // Updated image
+    image: 'https://i.ibb.co/k29PxyXk/CHATGPTBOTTG.png',
     dataAiHint: 'ChatGPT logo',
     requiresAuthDetails: false,
     subProducts: [
@@ -51,7 +52,7 @@ export const MOCK_PRODUCTS: Product[] = [
     name: 'Perplexity AI',
     description: 'Разговорная поисковая система и ИИ-ассистент для исследований.', // Translated
     category: 'neural-networks',
-    image: 'https://i.ibb.co/qYyHL2Zy/Perplexity-BOTTG.png', // Updated image
+    image: 'https://i.ibb.co/qYyHL2Zy/Perplexity-BOTTG.png', 
     dataAiHint: 'AI brain',
     price: 25,
     requiresAuthDetails: false,
@@ -82,7 +83,7 @@ export const MOCK_PRODUCTS: Product[] = [
     id: 'premium-vpn',
     name: 'Premium VPN Subscription',
     description: '1-year premium VPN access.',
-    category: 'vpn', // This category was removed from MOCK_CATEGORIES earlier
+    category: 'vpn', 
     image: 'https://placehold.co/600x400.png',
     dataAiHint: 'VPN lock',
     price: 60,
@@ -92,7 +93,7 @@ export const MOCK_PRODUCTS: Product[] = [
     id: 'steam-account',
     name: 'Steam Account (CS2 Prime)',
     description: 'Steam account with CS2 Prime status.',
-    category: 'game-accounts', // This category was removed from MOCK_CATEGORIES earlier
+    category: 'game-accounts', 
     image: 'https://placehold.co/600x400.png',
     dataAiHint: 'video game',
     price: 35,

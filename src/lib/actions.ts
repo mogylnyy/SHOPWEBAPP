@@ -22,7 +22,10 @@ async function processPayment(userId: string, amount: number): Promise<boolean> 
 
 async function recordOrder(orderDetails: OrderDetails): Promise<string> {
   await new Promise(resolve => setTimeout(resolve, 500));
-  return `mock_order_${Date.now()}`;
+  // Generate orderId in ORD-XXXX-YYYY format
+  const randomSuffix = Math.random().toString(36).substring(2, 6).toUpperCase();
+  const timestampSuffix = Date.now().toString().slice(-4);
+  return `ORD-${randomSuffix}-${timestampSuffix}`;
 }
 
 async function sendTelegramNotification(message: string): Promise<void> {
@@ -50,7 +53,9 @@ export type PurchaseFormState = {
     general?: string[];
   };
   orderId?: string;
-  redirectToChat?: boolean;
+  productName?: string;
+  subProductName?: string;
+  redirectToPath?: string;
 };
 
 export async function initiatePurchase(
@@ -86,13 +91,13 @@ export async function initiatePurchase(
       return {
         message: t('product_details_page.purchase_form_insufficient_balance_description'),
         success: false,
-        errors: { general: ['Insufficient balance. Please top up your account. Redirecting... (simulated)'] }
+        errors: { general: [t('product_details_page.purchase_form_insufficient_balance_description')] } // Use translated message
       };
     }
 
     const paymentSuccessful = await processPayment(userId, amount);
     if (!paymentSuccessful) {
-      return { message: t('product_details_page.purchase_form_purchase_failed_title'), success: false }; // More specific message if possible
+      return { message: t('product_details_page.purchase_form_purchase_failed_title'), success: false }; 
     }
 
     const orderDetails: OrderDetails = {
@@ -119,11 +124,15 @@ ${login ? `Логин: ${login}` : ''}
     `.trim().replace(/^      /gm, '');
     await sendTelegramNotification(notificationMessage);
     
+    const redirectPath = `/${validatedFields.data.locale}${PATHS.ORDER_CONFIRMATION}?orderId=${orderId}&productName=${encodeURIComponent(productName)}${subProductName ? `&subProductName=${encodeURIComponent(subProductName)}` : ''}`;
+
     return {
-      message: `${t('product_details_page.purchase_form_purchase_successful_title')} ID Заказа: ${orderId}. Вы будете перенаправлены.`, // Simplified, chat part removed for now
+      message: `${t('product_details_page.purchase_form_purchase_successful_title')} ID Заказа: ${orderId}. Вы будете перенаправлены.`,
       success: true,
       orderId,
-      redirectToChat: true, 
+      productName: productName,
+      subProductName: subProductName,
+      redirectToPath: redirectPath, 
     };
 
   } catch (error) {

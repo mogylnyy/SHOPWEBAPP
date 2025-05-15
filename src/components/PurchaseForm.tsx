@@ -37,8 +37,8 @@ const purchaseFormSchemaBase = z.object({
 });
 
 const authDetailsSchema = z.object({
-  login: z.string().min(1, 'Логин обязателен.'), // Example of direct Russian for zod
-  password: z.string().min(1, 'Пароль обязателен.'), // Example of direct Russian for zod
+  login: z.string().min(1, 'Логин обязателен.'), 
+  password: z.string().min(1, 'Пароль обязателен.'),
   twoFactorEnabled: z.boolean().default(false),
 });
 
@@ -57,8 +57,6 @@ export default function PurchaseForm({ product, selectedSubProduct }: PurchaseFo
   
   const finalPrice = selectedSubProduct?.price ?? product.price ?? 0;
 
-  // Zod error messages can be localized here if needed, or keep them simple.
-  // For simplicity, some are directly in Russian.
   const currentFormSchema = showAuthFields
     ? purchaseFormSchemaBase.merge(
         authDetailsSchema.superRefine((data, ctx) => {
@@ -66,14 +64,14 @@ export default function PurchaseForm({ product, selectedSubProduct }: PurchaseFo
             ctx.addIssue({
               code: z.ZodIssueCode.custom,
               path: ['login'],
-              message: t('product_details_page.purchase_form_login_label') + " " + t('zod.errors.required'), // Example: "Логин/Email обязателен."
+              message: t('product_details_page.purchase_form_login_label') + " " + t('zod.errors.required'),
             });
           }
           if (!data.password) {
             ctx.addIssue({
               code: z.ZodIssueCode.custom,
               path: ['password'],
-              message: t('product_details_page.purchase_form_password_label') + " " + t('zod.errors.required'), // Example: "Пароль обязателен."
+              message: t('product_details_page.purchase_form_password_label') + " " + t('zod.errors.required'),
             });
           }
         })
@@ -106,28 +104,30 @@ export default function PurchaseForm({ product, selectedSubProduct }: PurchaseFo
   }, [product.requiresAuthDetails]);
 
   useEffect(() => {
-    if (state?.success) {
+    form.setValue('amount', finalPrice);
+    form.setValue('subProductId', selectedSubProduct?.id);
+    form.setValue('subProductName', selectedSubProduct?.name);
+  }, [selectedSubProduct, finalPrice, form]);
+
+  useEffect(() => {
+    if (state?.success && state.redirectToPath) {
       toast({
         title: t('product_details_page.purchase_form_purchase_successful_title'),
-        description: state.message, // Message from action should be in Russian or key
+        description: state.message, 
       });
-      if (state.redirectToChat) {
-        setTimeout(() => {
-          router.push(`/${locale}${PATHS.HOME}?purchase_success=true&order_id=${state.orderId}`);
-        }, 2000);
-      }
-       setUserBalance(currentBalance => currentBalance - finalPrice);
+      router.push(state.redirectToPath);
+      setUserBalance(currentBalance => currentBalance - finalPrice); // Update balance locally
     } else if (state?.message && !state.success) {
-      const isInsufficientBalanceError = state.errors?.general?.includes('Insufficient balance. Please top up your account. Redirecting... (simulated)');
+      const isInsufficientBalanceError = state.errors?.general?.includes(t('product_details_page.purchase_form_insufficient_balance_description'));
       toast({
         title: isInsufficientBalanceError ? t('product_details_page.purchase_form_insufficient_balance_title') : t('product_details_page.purchase_form_purchase_failed_title'),
-        description: isInsufficientBalanceError ? t('product_details_page.purchase_form_insufficient_balance_description') : state.message,
+        description: state.message, // The message from action should already be translated or be a key
         variant: 'destructive',
       });
       if(isInsufficientBalanceError){
         setTimeout(() => router.push(`/${locale}${PATHS.TOP_UP}`), 2000);
       }
-    } else if (state?.errors && !state.success) { // Generic form error from action
+    } else if (state?.errors && !state.success) { 
         toast({
             title: t('product_details_page.purchase_form_purchase_failed_title'),
             description: state.message || t('product_details_page.purchase_form_invalid_data_message'),
@@ -153,7 +153,6 @@ export default function PurchaseForm({ product, selectedSubProduct }: PurchaseFo
           formData.append(key, String(value));
         }
       });
-      // Append locale to form data so action can use it if needed for messages
       formData.append('locale', locale);
       formAction(formData);
     })();
