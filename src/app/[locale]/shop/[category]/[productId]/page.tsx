@@ -89,12 +89,12 @@ export default function ProductDetailsPage() {
       <div className="grid md:grid-cols-2 gap-8 lg:gap-12">
         <Card className="bg-card/70 backdrop-blur-md shadow-xl">
           <CardHeader>
-            <div className="aspect-[16/10] relative w-full rounded-t-lg overflow-hidden mb-4">
+            <div className="aspect-square relative w-full rounded-t-lg overflow-hidden mb-4"> {/* Changed aspect ratio */}
               <Image
                 src={product.image}
                 alt={product.name}
                 layout="fill"
-                objectFit="cover"
+                objectFit="contain" // Changed objectFit
                 data-ai-hint={product.dataAiHint}
               />
             </div>
