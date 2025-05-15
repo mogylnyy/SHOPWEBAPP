@@ -15,7 +15,7 @@ export const PATHS = {
 export const MOCK_CATEGORIES: Category[] = [
   {
     id: 'neural-networks',
-    name: 'Neural Networks',
+    name: 'Нейросети', // Changed from 'Neural Networks'
     description: 'Доступ к мощным ИИ-моделям и инструментам.', // Translated
     image: 'https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxBSSUyMHRlY2hub2xvZ3l8ZW58MHx8fHwxNzQ3MjkxOTgwfDA&ixlib=rb-4.1.0&q=80&w=1080',
     dataAiHint: 'AI technology',
