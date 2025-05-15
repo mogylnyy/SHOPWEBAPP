@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState } from 'react';
@@ -117,10 +116,17 @@ export default function FaqClient() {
           </Card>
         )}
       </CardContent>
-      <CardFooter className="text-center">
+      <CardFooter className="text-center flex flex-col gap-3">
         <p className="text-xs text-muted-foreground w-full">
             {t('help_page.footer_note')}
         </p>
+        <Button
+          variant="outline"
+          className="mx-auto mt-2 w-32"
+          onClick={() => window.history.back()}
+        >
+          ← Назад
+        </Button>
       </CardFooter>
     </Card>
   );
