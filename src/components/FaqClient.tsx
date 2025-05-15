@@ -122,7 +122,7 @@ export default function FaqClient() {
         </p>
         <Button
           variant="outline"
-          className="mx-auto mt-4 w-48 text-base font-semibold"
+          className="mx-auto mt-4 w-full text-base font-semibold"
           asChild
         >
           <a href="/">
