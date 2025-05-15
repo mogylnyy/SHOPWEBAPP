@@ -16,10 +16,12 @@ function OrderConfirmationContent() {
 
   const [orderId, setOrderId] = useState<string | null>(null);
   const [productName, setProductName] = useState<string | null>(null);
+  const [subProductName, setSubProductName] = useState<string | null>(null);
   const [hasCopiedOrder, setHasCopiedOrder] = useState(false);
 
   const orderIdFromUrl = searchParams.get('orderId');
   const productNameFromUrl = searchParams.get('productName');
+  const subProductNameFromUrl = searchParams.get('subProductName');
 
   useEffect(() => {
     if (orderIdFromUrl !== orderId) {
@@ -28,7 +30,10 @@ function OrderConfirmationContent() {
     if (productNameFromUrl !== productName) {
       setProductName(productNameFromUrl);
     }
-  }, [orderIdFromUrl, productNameFromUrl, orderId, productName]);
+    if (subProductNameFromUrl !== subProductName) {
+      setSubProductName(subProductNameFromUrl);
+    }
+  }, [orderIdFromUrl, productNameFromUrl, subProductNameFromUrl, orderId, productName, subProductName]);
 
   if (!orderId || !productNameFromUrl) {
     return (
@@ -43,7 +48,8 @@ function OrderConfirmationContent() {
   }
 
   const decodedProductName = decodeURIComponent(productNameFromUrl);
-  const message = `Здравствуйте! Я приобрел у вас товар: ${decodedProductName}.\nID заказа: ${orderId}\nТовар: ${decodedProductName}`;
+  const decodedSubProductName = subProductName ? decodeURIComponent(subProductName) : null;
+  const message = `Здравствуйте! Я приобрел у вас товар: ${decodedProductName}${decodedSubProductName ? `\n${decodedSubProductName}` : ''}.\nID заказа: ${orderId}\nТовар: ${decodedProductName}${decodedSubProductName ? `\n${decodedSubProductName}` : ''}`;
 
   const handleCopy = () => {
     navigator.clipboard.writeText(message).then(() => {
@@ -80,6 +86,7 @@ function OrderConfirmationContent() {
         <div className="text-left text-sm bg-neutral-800 p-4 rounded-lg mb-4">
           <p><strong>🆔 ID заказа:</strong> {orderId}</p>
           <p><strong>📦 Товар:</strong> {decodedProductName}</p>
+          {decodedSubProductName && <p>{decodedSubProductName}</p>}
         </div>
         <p className="text-sm text-gray-400 mb-2">
           Скопируйте ID заказа и отправьте менеджеру.<br />
