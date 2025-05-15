@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: 'QuickBuy TG',
+  title: 'ИИMPERIUM SHOP',
   description: 'Quickly buy digital goods and services.',
 };
 

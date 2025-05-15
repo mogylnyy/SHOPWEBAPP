@@ -11,7 +11,7 @@ export default function TopUpPage() {
       <div className="text-center mb-8">
         <h1 className="text-4xl font-bold tracking-tight text-primary sm:text-5xl">Top-Up Balance</h1>
         <p className="mt-3 text-lg text-muted-foreground">
-          Add funds to your QuickBuy TG account.
+          Add funds to your ИИMPERIUM SHOP account.
         </p>
       </div>
 

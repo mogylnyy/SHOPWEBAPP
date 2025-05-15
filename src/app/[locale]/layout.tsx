@@ -23,7 +23,7 @@ import { i18n } from '@/lib/i18n-config';
 // or it can be primarily handled by src/app/layout.tsx.
 // For simplicity, the main title/description are in src/app/layout.tsx.
 // export const metadata: Metadata = {
-//   title: 'QuickBuy TG Locale',
+//   title: 'ИИMPERIUM SHOP Locale',
 //   description: 'Quickly buy digital goods and services in a specific locale.',
 // };
 

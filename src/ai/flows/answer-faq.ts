@@ -29,7 +29,7 @@ const AnswerFAQOutputSchema = z.object({
 export type AnswerFAQOutput = z.infer<typeof AnswerFAQOutputSchema>;
 
 export async function answerFAQ(input: AnswerFAQInput): Promise<AnswerFAQOutput> {
-  const systemPrompt = `Ты — полезный ИИ-ассистент магазина цифровых подписок QuickBuy TG (ИИMPERIUM SHOP).
+  const systemPrompt = `Ты — полезный ИИ-ассистент магазина цифровых подписок ИИMPERIUM SHOP.
 Отвечай кратко, ясно и только на темы, связанные с магазином.
 
 Контекст:
