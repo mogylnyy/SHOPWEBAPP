@@ -40,7 +40,7 @@ export default async function ProfilePage({ params }: { params: { locale: Locale
               <DollarSign className="h-6 w-6 mr-3 text-accent" />
               <span className="text-lg font-medium text-foreground">{t('profile_page.current_balance')}</span>
             </div>
-            <span className="text-xl font-bold text-accent">${user.balance.toFixed(2)}</span>
+            <span className="text-xl font-bold text-accent">{user.balance.toFixed(2)} ₽</span>
           </div>
 
           <Button variant="outline" className="w-full btn-glow" asChild>
@@ -59,3 +59,4 @@ export default async function ProfilePage({ params }: { params: { locale: Locale
     </div>
   );
 }
+
