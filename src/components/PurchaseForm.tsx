@@ -1,4 +1,3 @@
-
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -58,27 +57,34 @@ export default function PurchaseForm({ product, selectedSubProduct }: PurchaseFo
   const finalPrice = selectedSubProduct?.price ?? product.price ?? 0;
 
   const currentFormSchema = showAuthFields
-    ? purchaseFormSchemaBase.merge(
-        authDetailsSchema.superRefine((data, ctx) => {
-          if (!data.login) {
-            ctx.addIssue({
-              code: z.ZodIssueCode.custom,
-              path: ['login'],
-              message: t('product_details_page.purchase_form_login_label') + " " + t('zod.errors.required'),
-            });
-          }
-          if (!data.password) {
-            ctx.addIssue({
-              code: z.ZodIssueCode.custom,
-              path: ['password'],
-              message: t('product_details_page.purchase_form_password_label') + " " + t('zod.errors.required'),
-            });
-          }
-        })
-      )
+    ? purchaseFormSchemaBase.merge(authDetailsSchema).superRefine((data, ctx) => {
+        if (!data.login) {
+          ctx.addIssue({
+            code: z.ZodIssueCode.custom,
+            path: ['login'],
+            message: t('product_details_page.purchase_form_login_label') + ' ' + t('zod.errors.required'),
+          });
+        }
+        if (!data.password) {
+          ctx.addIssue({
+            code: z.ZodIssueCode.custom,
+            path: ['password'],
+            message: t('product_details_page.purchase_form_password_label') + ' ' + t('zod.errors.required'),
+          });
+        }
+      })
     : purchaseFormSchemaBase;
 
-  type PurchaseFormValues = z.infer<typeof currentFormSchema>;
+  type PurchaseFormValues = {
+    productId: string;
+    productName: string;
+    subProductId?: string;
+    subProductName?: string;
+    amount: number;
+    login?: string;
+    password?: string;
+    twoFactorEnabled?: boolean;
+  };
 
   const form = useForm<PurchaseFormValues>({
     resolver: zodResolver(currentFormSchema),
@@ -95,7 +101,8 @@ export default function PurchaseForm({ product, selectedSubProduct }: PurchaseFo
   });
 
   // Destructure isPending from useActionState
-  const [state, formAction, isPending] = useActionState<PurchaseFormState | undefined, FormData>(initiatePurchase, undefined);
+  const [state, formAction] = useActionState<PurchaseFormState | undefined, FormData>(initiatePurchase, undefined);
+  const [isPending, setIsPending] = useState(false);
   const [userBalance, setUserBalance] = useState(MOCK_USER_PROFILE.balance);
 
   useEffect(() => {
@@ -147,6 +154,7 @@ export default function PurchaseForm({ product, selectedSubProduct }: PurchaseFo
       setTimeout(() => router.push(`/${locale}${PATHS.TOP_UP}`), 2000);
       return;
     }
+    setIsPending(true);
     form.handleSubmit((data) => {
       const formData = new FormData();
       Object.entries(data).forEach(([key, value]) => {
@@ -155,9 +163,9 @@ export default function PurchaseForm({ product, selectedSubProduct }: PurchaseFo
         }
       });
       formData.append('locale', locale);
-      // Wrap formAction call in startTransition
       startTransition(() => {
         formAction(formData);
+        setIsPending(false);
       });
     })();
   };
