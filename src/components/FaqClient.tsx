@@ -122,14 +122,7 @@ export default function FaqClient() {
         </p>
         <Button
           variant="outline"
-          className="mx-auto mt-2 w-32"
-          onClick={() => window.history.back()}
-        >
-          ← Назад
-        </Button>
-        <Button
-          variant="outline"
-          className="mx-auto mt-2 w-32"
+          className="mx-auto mt-4 w-48 text-base font-semibold"
           asChild
         >
           <a href="/">
