@@ -1,7 +1,7 @@
 
 import type { Category, Product, UserProfile } from '@/types';
 
-export const APP_NAME = 'QuickBuy TG';
+export const APP_NAME = 'ИИMPERIUM SHOP'; // Changed from QuickBuy TG
 
 export const PATHS = {
   HOME: '/',
@@ -35,8 +35,8 @@ export const MOCK_PRODUCTS: Product[] = [
     name: 'ChatGPT',
     description: 'Продвинутый ИИ-ассистент от OpenAI.', // Translated
     category: 'neural-networks',
-    image: 'https://images.unsplash.com/photo-1620712943543-bcc4688e7485?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxBSSUyMGNoYXR8ZW58MHx8fHwxNzQ3Mjk1ODg2fDA&ixlib=rb-4.1.0&q=80&w=1080',
-    dataAiHint: 'AI chat',
+    image: 'https://placehold.co/600x400.png', // Changed from Unsplash
+    dataAiHint: 'ChatGPT logo', // Changed from 'AI chat'
     requiresAuthDetails: false,
     subProducts: [
       { id: 'plus-subscription-renewal', name: 'Продление подписки Plus', price: 20 },
@@ -51,8 +51,8 @@ export const MOCK_PRODUCTS: Product[] = [
     name: 'Perplexity AI',
     description: 'Разговорная поисковая система и ИИ-ассистент для исследований.', // Translated
     category: 'neural-networks',
-    image: 'https://images.unsplash.com/photo-1745674684639-9cef0092212c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxBSSUyMHNlYXJjaHxlbnwwfHx8fDE3NDcyOTU4ODV8MA&ixlib=rb-4.1.0&q=80&w=1080',
-    dataAiHint: 'AI search',
+    image: 'https://images.unsplash.com/photo-1745674684639-9cef0092212c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxBSSUyMHNlYXJjaHxlbnwwfHx8fDE3NDcyOTU4ODV8MA&ixlib=rb-4.1.0&q=80&w=1080', // Kept existing Unsplash image
+    dataAiHint: 'AI search', // Kept existing hint
     price: 25,
     requiresAuthDetails: false,
   },
@@ -82,7 +82,7 @@ export const MOCK_PRODUCTS: Product[] = [
     id: 'premium-vpn',
     name: 'Premium VPN Subscription',
     description: '1-year premium VPN access.',
-    category: 'vpn',
+    category: 'vpn', // This category was removed from MOCK_CATEGORIES earlier
     image: 'https://placehold.co/600x400.png',
     dataAiHint: 'VPN lock',
     price: 60,
@@ -92,7 +92,7 @@ export const MOCK_PRODUCTS: Product[] = [
     id: 'steam-account',
     name: 'Steam Account (CS2 Prime)',
     description: 'Steam account with CS2 Prime status.',
-    category: 'game-accounts',
+    category: 'game-accounts', // This category was removed from MOCK_CATEGORIES earlier
     image: 'https://placehold.co/600x400.png',
     dataAiHint: 'video game',
     price: 35,
@@ -110,4 +110,3 @@ export const LAVA_IO_TOP_UP_URL = 'https://lava.io/pay';
 export const LAVA_IO_QR_CODE_IMAGE = 'https://placehold.co/256x256.png';
 export const ADMIN_TELEGRAM_BOT_ID = 'YOUR_ADMIN_BOT_ID';
 export const ADMIN_TELEGRAM_CHAT_ID = 'YOUR_ADMIN_CHAT_ID';
-
