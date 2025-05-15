@@ -1,10 +1,9 @@
-
 import Image from 'next/image';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { LAVA_IO_TOP_UP_URL, LAVA_IO_QR_CODE_IMAGE } from '@/lib/constants';
-import { CreditCard, QrCode, ExternalLink } from 'lucide-react';
+import { LAVA_IO_TOP_UP_URL } from '@/lib/constants';
+import { CreditCard, ExternalLink } from 'lucide-react';
 import { getTranslations } from '@/lib/i18n-server';
 import type { Locale } from '@/lib/i18n-config';
 
@@ -35,7 +34,7 @@ export default async function TopUpPage({ params }: { params: { locale: Locale }
               {t('top_up_page.lava_button')} <ExternalLink className="ml-2 h-5 w-5" />
             </Link>
           </Button>
-          
+
           <div className="relative">
             <div className="absolute inset-0 flex items-center">
               <span className="w-full border-t" />
@@ -44,25 +43,6 @@ export default async function TopUpPage({ params }: { params: { locale: Locale }
               <span className="bg-card px-2 text-muted-foreground">
                 {t('top_up_page.or_divider')}
               </span>
-            </div>
-          </div>
-
-          <div>
-            <h3 className="text-xl font-semibold mb-2 flex items-center text-foreground">
-              <QrCode className="h-5 w-5 mr-2 text-primary" /> {t('top_up_page.qr_method')}
-            </h3>
-            <p className="text-sm text-muted-foreground mb-4">
-              {t('top_up_page.qr_description')}
-            </p>
-            <div className="flex justify-center p-4 border rounded-lg bg-background/50">
-              <Image
-                src={LAVA_IO_QR_CODE_IMAGE}
-                alt={t('top_up_page.qr_method')} // Translated alt text
-                width={200}
-                height={200}
-                className="rounded-md shadow-md"
-                data-ai-hint="QR code payment"
-              />
             </div>
           </div>
         </CardContent>
