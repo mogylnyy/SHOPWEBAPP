@@ -24,7 +24,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ru" className="dark"> {/* Set lang="ru" as it's the only supported locale */}
+    <html lang="ru" className="dark">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased font-sans`}
       >
