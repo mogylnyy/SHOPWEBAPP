@@ -99,10 +99,6 @@ export default function PurchaseForm({ product, selectedSubProduct }: { product:
       });
       const result = await response.json();
       if (result.success && result.redirectToPath) {
-        toast({
-          title: t('product_details_page.purchase_form_purchase_successful_title'),
-          description: result.message,
-        });
         router.push(result.redirectToPath);
         setUserBalance(currentBalance => currentBalance - finalPrice);
       } else {
