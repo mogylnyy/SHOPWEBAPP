@@ -4,7 +4,7 @@ import { MOCK_CATEGORIES, MOCK_PRODUCTS, PATHS } from '@/lib/constants';
 import type { Category, Product } from '@/types';
 import Link from 'next/link';
 import { ChevronRight, Home } from 'lucide-react';
-import { getTranslations } from '@/lib/i18n-server'; // Changed from useTranslation
+import { getTranslations } from '@/lib/i18n-server';
 import type { Locale } from '@/lib/i18n-config';
 import { i18n } from '@/lib/i18n-config';
 
@@ -20,7 +20,7 @@ async function getProductsByCategory(categoryId: string): Promise<Product[]> {
 
 export default async function CategoryProductsPage({ params }: { params: { category: string; locale: Locale } }) {
   const categoryId = params.category;
-  const { t } = await getTranslations(params.locale); // Changed from useTranslation
+  const { t } = await getTranslations(params.locale);
   const category = await getCategoryDetails(categoryId);
   const products = await getProductsByCategory(categoryId);
 
@@ -52,7 +52,7 @@ export default async function CategoryProductsPage({ params }: { params: { categ
       {products.length === 0 ? (
         <p className="text-center text-muted-foreground">{t('category_page.no_products_found')}</p>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        <div className="grid grid-cols-2 gap-4"> {/* Updated grid classes here */}
           {products.map((product) => (
             <ProductCard key={product.id} product={product} locale={params.locale} />
           ))}

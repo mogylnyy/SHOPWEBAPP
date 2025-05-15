@@ -34,7 +34,7 @@ export default function ProductCard({ product, locale }: ProductCardProps) {
   const priceDisplay = getPriceDisplay(product);
 
   return (
-    <Card className="overflow-hidden h-full flex flex-col bg-card/70 backdrop-blur-md shadow-lg hover:shadow-primary/20 transition-shadow duration-300">
+    <Card className="overflow-hidden h-full flex flex-col bg-card/70 backdrop-blur-md shadow-lg hover:shadow-primary/20 transition-shadow duration-300 group">
       <CardHeader className="p-0">
         <div className="aspect-[3/2] relative w-full">
           <Image
@@ -46,16 +46,16 @@ export default function ProductCard({ product, locale }: ProductCardProps) {
           />
         </div>
       </CardHeader>
-      <CardContent className="p-6 flex-grow">
-        <CardTitle className="text-xl font-semibold mb-1 text-primary">{product.name}</CardTitle>
-        <p className="text-2xl font-bold text-accent mb-2">{priceDisplay}</p>
-        <CardDescription className="text-sm text-muted-foreground line-clamp-3">{product.description}</CardDescription>
+      <CardContent className="p-3 sm:p-4 flex-grow">
+        <CardTitle className="text-base sm:text-lg font-semibold mb-1 text-primary group-hover:text-accent transition-colors">{product.name}</CardTitle>
+        <p className="text-lg sm:text-xl font-bold text-accent mb-1 sm:mb-2">{priceDisplay}</p>
+        <CardDescription className="text-xs sm:text-sm text-muted-foreground line-clamp-2 sm:line-clamp-3">{product.description}</CardDescription>
       </CardContent>
-      <CardFooter className="p-6 pt-0">
-        <Button asChild variant="outline" className="w-full btn-glow">
+      <CardFooter className="p-3 sm:p-4 pt-0 mt-auto">
+        <Button asChild variant="outline" size="sm" className="w-full btn-glow text-xs sm:text-sm group-hover:bg-accent/10 group-hover:border-accent">
           <Link href={`/${locale}${PATHS.SHOP}/${product.category}/${product.id}`}>
             {product.subProducts && product.subProducts.length > 0 ? t('product_card.view_options_button') : t('product_card.view_details_button')}
-            <ArrowRight className="ml-2 h-4 w-4" />
+            <ArrowRight className="ml-1.5 h-3.5 w-3.5 sm:h-4 sm:w-4" />
           </Link>
         </Button>
       </CardFooter>
