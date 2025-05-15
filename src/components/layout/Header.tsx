@@ -9,7 +9,7 @@ export default function Header() {
       <div className="container mx-auto px-4 h-16 flex items-center justify-between">
         <Link href="/" className="flex items-center gap-2 text-2xl font-bold text-primary hover:text-accent transition-colors">
           <ShoppingBag className="h-7 w-7" />
-          QuickBuy TG
+          ИИMPERIUM SHOP
         </Link>
         {/* Future navigation items can go here */}
       </div>
