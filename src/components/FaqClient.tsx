@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState } from 'react';
@@ -6,9 +7,12 @@ import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { answerFAQ, type AnswerFAQInput, type AnswerFAQOutput } from '@/ai/flows/answer-faq';
-import { Bot, HelpCircle, Loader2, Send, Terminal, ExternalLink } from 'lucide-react';
+import { Bot, HelpCircle, Loader2, Send, Terminal } from 'lucide-react';
+import { useTranslation } from '@/hooks/useTranslation';
+import type { Locale } from '@/lib/i18n-config'; // Ensure Locale is imported if needed for useTranslation
 
 export default function FaqClient() {
+  const { t } = useTranslation(); // Locale will be picked up by useParams in useTranslation
   const [query, setQuery] = useState('');
   const [response, setResponse] = useState<AnswerFAQOutput | null>(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -38,9 +42,9 @@ export default function FaqClient() {
     <Card className="w-full max-w-2xl mx-auto bg-card/80 backdrop-blur-md shadow-xl">
       <CardHeader className="text-center">
         <HelpCircle className="mx-auto h-12 w-12 text-primary mb-2" />
-        <CardTitle className="text-3xl font-bold">AI-Powered Help Center</CardTitle>
+        <CardTitle className="text-3xl font-bold">{t('help_page.ai_center_title')}</CardTitle>
         <CardDescription>
-          Ask a question and our AI assistant will try to help you.
+          {t('help_page.ai_center_subtitle')}
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -50,7 +54,7 @@ export default function FaqClient() {
               type="text"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              placeholder="e.g., How do I top up my balance?"
+              placeholder={t('help_page.input_placeholder')}
               className="flex-grow text-base"
               disabled={isLoading}
             />
@@ -60,7 +64,7 @@ export default function FaqClient() {
               ) : (
                 <Send className="h-5 w-5" />
               )}
-              <span className="sr-only">Send</span>
+              <span className="sr-only">{t('help_page.send_button_sr')}</span>
             </Button>
           </div>
         </form>
@@ -68,14 +72,14 @@ export default function FaqClient() {
         {isLoading && (
           <div className="mt-6 flex items-center justify-center text-muted-foreground">
             <Loader2 className="h-6 w-6 animate-spin mr-2" />
-            <span>Thinking...</span>
+            <span>{t('help_page.thinking')}</span>
           </div>
         )}
 
         {error && (
           <Alert variant="destructive" className="mt-6">
             <Terminal className="h-4 w-4" />
-            <AlertTitle>Error</AlertTitle>
+            <AlertTitle>{t('help_page.error_title')}</AlertTitle>
             <AlertDescription>{error}</AlertDescription>
           </Alert>
         )}
@@ -84,7 +88,7 @@ export default function FaqClient() {
           <Card className="mt-6 bg-background/50 shadow-inner">
             <CardHeader>
               <CardTitle className="flex items-center text-xl text-primary">
-                <Bot className="h-6 w-6 mr-2" /> AI Response
+                <Bot className="h-6 w-6 mr-2" /> {t('help_page.ai_response_title')}
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-3">
@@ -92,14 +96,9 @@ export default function FaqClient() {
               {response.useSolutionTool && (
                  <Alert variant="default" className="border-accent bg-accent/10">
                     <Terminal className="h-4 w-4 text-accent" />
-                    <AlertTitle className="text-accent">Potential Solution Found</AlertTitle>
+                    <AlertTitle className="text-accent">{t('help_page.solution_alert_title')}</AlertTitle>
                     <AlertDescription className="text-accent/90">
-                        Our AI found a relevant solution. For more details, you might want to check our knowledge base or contact support.
-                        {/* Example of how you might link to a solution, if applicable
-                        <Button variant="link" asChild className="p-0 h-auto text-accent hover:underline">
-                           <a href="/solutions/example" target="_blank">View Solution Details <ExternalLink className="inline-block ml-1 h-3 w-3"/></a>
-                        </Button>
-                        */}
+                        {t('help_page.solution_alert_description')}
                     </AlertDescription>
                  </Alert>
               )}
@@ -109,7 +108,7 @@ export default function FaqClient() {
       </CardContent>
       <CardFooter className="text-center">
         <p className="text-xs text-muted-foreground w-full">
-            AI responses are for informational purposes. For critical issues, please contact support.
+            {t('help_page.footer_note')}
         </p>
       </CardFooter>
     </Card>

@@ -1,20 +1,10 @@
-import FaqClient from '@/components/FaqClient';
 
-export default function HelpPage() {
-  return (
-    <div>
-      {/* 
-        The page title and description are handled within FaqClient for better component cohesion,
-        but you could also add a general page intro here if needed.
-        Example:
-        <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold tracking-tight text-primary sm:text-5xl">Help & Support</h1>
-          <p className="mt-3 text-lg text-muted-foreground">
-            Find answers to your questions or get assistance from our AI.
-          </p>
-        </div> 
-      */}
-      <FaqClient />
-    </div>
-  );
+import { redirect } from 'next/navigation';
+import { i18n } from '@/lib/i18n-config';
+import { PATHS } from '@/lib/constants';
+
+// This page will redirect to the default localized help page.
+export default function RootHelpPage() {
+  redirect(`/${i18n.defaultLocale}${PATHS.HELP}`);
+  // Next.js redirect will stop rendering here, so no need to return JSX.
 }
