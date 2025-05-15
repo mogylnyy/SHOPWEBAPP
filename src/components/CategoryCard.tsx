@@ -21,12 +21,12 @@ export default function CategoryCard({ category, locale }: CategoryCardProps) {
   return (
     <Card className="overflow-hidden h-full flex flex-col bg-card/70 backdrop-blur-md shadow-lg hover:shadow-primary/20 transition-shadow duration-300 group">
       <CardHeader className="p-0">
-        <div className="aspect-[3/2] relative w-full">
+        <div className="aspect-square relative w-full"> {/* Changed aspect ratio */}
           <Image
             src={category.image}
             alt={category.name}
             layout="fill"
-            objectFit="cover"
+            objectFit="contain" // Changed objectFit
             data-ai-hint={category.dataAiHint}
           />
         </div>

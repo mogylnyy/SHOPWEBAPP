@@ -36,12 +36,12 @@ export default function ProductCard({ product, locale }: ProductCardProps) {
   return (
     <Card className="overflow-hidden h-full flex flex-col bg-card/70 backdrop-blur-md shadow-lg hover:shadow-primary/20 transition-shadow duration-300 group">
       <CardHeader className="p-0">
-        <div className="aspect-[3/2] relative w-full">
+        <div className="aspect-square relative w-full"> {/* Changed aspect ratio */}
           <Image
             src={product.image}
             alt={product.name}
             layout="fill"
-            objectFit="cover"
+            objectFit="contain" // Changed objectFit
             data-ai-hint={product.dataAiHint}
           />
         </div>
@@ -62,3 +62,4 @@ export default function ProductCard({ product, locale }: ProductCardProps) {
     </Card>
   );
 }
+
