@@ -2,7 +2,7 @@
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
-import { useActionState, useEffect, useState, startTransition } from 'react'; // Added startTransition
+import { useActionState, useEffect, useState } from 'react';
 import { z } from 'zod';
 import { Button } from '@/components/ui/button';
 import {
@@ -57,22 +57,7 @@ export default function PurchaseForm({ product, selectedSubProduct }: PurchaseFo
   const finalPrice = selectedSubProduct?.price ?? product.price ?? 0;
 
   const currentFormSchema = showAuthFields
-    ? purchaseFormSchemaBase.merge(authDetailsSchema).superRefine((data, ctx) => {
-        if (!data.login) {
-          ctx.addIssue({
-            code: z.ZodIssueCode.custom,
-            path: ['login'],
-            message: t('product_details_page.purchase_form_login_label') + ' ' + t('zod.errors.required'),
-          });
-        }
-        if (!data.password) {
-          ctx.addIssue({
-            code: z.ZodIssueCode.custom,
-            path: ['password'],
-            message: t('product_details_page.purchase_form_password_label') + ' ' + t('zod.errors.required'),
-          });
-        }
-      })
+    ? purchaseFormSchemaBase.merge(authDetailsSchema)
     : purchaseFormSchemaBase;
 
   type PurchaseFormValues = z.infer<typeof currentFormSchema>;
@@ -91,9 +76,7 @@ export default function PurchaseForm({ product, selectedSubProduct }: PurchaseFo
     },
   });
 
-  // Destructure isPending from useActionState
-  const [state, formAction] = useActionState<PurchaseFormState | undefined, FormData>(initiatePurchase, undefined);
-  const [isPending, setIsPending] = useState(false);
+  const [state, formAction, isPending] = useActionState<PurchaseFormState | undefined, FormData>(initiatePurchase, undefined);
   const [userBalance, setUserBalance] = useState(MOCK_USER_PROFILE.balance);
 
   useEffect(() => {
@@ -145,7 +128,6 @@ export default function PurchaseForm({ product, selectedSubProduct }: PurchaseFo
       setTimeout(() => router.push(`/${locale}${PATHS.TOP_UP}`), 2000);
       return;
     }
-    setIsPending(true);
     form.handleSubmit((data) => {
       const formData = new FormData();
       Object.entries(data).forEach(([key, value]) => {
@@ -154,10 +136,7 @@ export default function PurchaseForm({ product, selectedSubProduct }: PurchaseFo
         }
       });
       formData.append('locale', locale);
-      startTransition(() => {
-        formAction(formData);
-        setIsPending(false);
-      });
+      formAction(formData);
     })();
   };
 
@@ -246,7 +225,6 @@ export default function PurchaseForm({ product, selectedSubProduct }: PurchaseFo
 
           </CardContent>
           <CardFooter>
-            {/* Use isPending from useActionState for disabled and text state */}
             <Button type="submit" className="w-full btn-glow" disabled={isPending || userBalance < finalPrice}>
               {isPending ? t('product_details_page.purchase_form_buy_button_processing') : `${t('product_details_page.purchase_form_buy_button_prefix')} ${finalPrice.toFixed(2)} ₽`}
             </Button>
