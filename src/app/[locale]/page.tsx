@@ -44,7 +44,8 @@ const menuItems: MenuItem[] = [
   },
 ];
 
-export default function HomePage({ params: { locale } }: { params: { locale: Locale } }) {
+export default function HomePage({ params }: { params: { locale: Locale } }) {
+  const locale = params.locale; // Access locale from params object
   const { t } = useTranslation(locale);
 
   return (
