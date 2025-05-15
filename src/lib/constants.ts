@@ -27,20 +27,6 @@ export const MOCK_CATEGORIES: Category[] = [
     image: 'https://images.unsplash.com/photo-1604005366359-2f8f2a044336?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxuZXR3b3JrJTIwc2VydmVyfGVufDB8fHx8MTc0NzI5MTk4MHww&ixlib=rb-4.1.0&q=80&w=1080',
     dataAiHint: 'network server',
   },
-  // {
-  //   id: 'vpn-services',
-  //   name: 'VPN Services',
-  //   description: 'Reliable VPN for privacy and security.',
-  //   image: 'https://images.unsplash.com/photo-1522508115664-391162d98bd1?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxzZWN1cml0eSUyMHNoaWVsZHxlbnwwfHx8fDE3NDcyOTE5ODF8MA&ixlib=rb-4.1.0&q=80&w=1080',
-  //   dataAiHint: 'security shield',
-  // },
-  // {
-  //   id: 'game-accounts',
-  //   name: 'Game Accounts',
-  //   description: 'Pre-loaded and rare game accounts.',
-  //   image: 'https://images.unsplash.com/photo-1567027757540-7b572280fa22?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxnYW1pbmclMjBjb250cm9sbGVyfGVufDB8fHx8MTc0NzI5MTk3OXww&ixlib=rb-4.1.0&q=80&w=1080',
-  //   dataAiHint: 'gaming controller',
-  // },
 ];
 
 export const MOCK_PRODUCTS: Product[] = [
@@ -53,8 +39,10 @@ export const MOCK_PRODUCTS: Product[] = [
     dataAiHint: 'AI chat',
     requiresAuthDetails: false,
     subProducts: [
-      { id: 'plus-subscription', name: 'Продление подписки Plus', price: 20 },
-      { id: 'pro-account', name: 'Готовый аккаунт Pro', price: 50 },
+      { id: 'plus-subscription-renewal', name: 'Продление подписки Plus', price: 20 },
+      { id: 'plus-account-ready', name: 'Готовый аккаунт Plus', price: 25 },
+      { id: 'pro-subscription-renewal', name: 'Продление подписки PRO', price: 45 },
+      { id: 'pro-account-ready', name: 'Готовый аккаунт PRO', price: 50 },
       { id: 'basic-account', name: 'Аккаунт без подписки', price: 5 },
     ],
   },
@@ -63,10 +51,10 @@ export const MOCK_PRODUCTS: Product[] = [
     name: 'Perplexity AI',
     description: 'Conversational search engine and AI research assistant.',
     category: 'neural-networks',
-    image: 'https://placehold.co/600x400.png', // Replace with actual image if available
+    image: 'https://placehold.co/600x400.png', 
     dataAiHint: 'AI search',
-    price: 25, // Example price, or can have subProducts
-    requiresAuthDetails: false, // Assuming no auth details needed for this example
+    price: 25, 
+    requiresAuthDetails: false,
   },
   {
     id: 'residential-proxy',
@@ -94,7 +82,7 @@ export const MOCK_PRODUCTS: Product[] = [
     id: 'premium-vpn',
     name: 'Premium VPN Subscription',
     description: '1-year premium VPN access.',
-    category: 'vpn', // This category ID will no longer match a displayed category
+    category: 'vpn', 
     image: 'https://placehold.co/600x400.png',
     dataAiHint: 'VPN lock',
     price: 60,
@@ -104,7 +92,7 @@ export const MOCK_PRODUCTS: Product[] = [
     id: 'steam-account',
     name: 'Steam Account (CS2 Prime)',
     description: 'Steam account with CS2 Prime status.',
-    category: 'game-accounts', // This category ID will no longer match a displayed category
+    category: 'game-accounts', 
     image: 'https://placehold.co/600x400.png',
     dataAiHint: 'video game',
     price: 35,
@@ -118,8 +106,9 @@ export const MOCK_USER_PROFILE: UserProfile = {
   balance: 150.75,
 };
 
-export const LAVA_IO_TOP_UP_URL = 'https://lava.io/pay'; // Replace with actual link
-export const LAVA_IO_QR_CODE_IMAGE = 'https://placehold.co/256x256.png'; // Replace with actual QR code image
-export const ADMIN_TELEGRAM_BOT_ID = 'YOUR_ADMIN_BOT_ID'; // Replace with actual bot ID
-export const ADMIN_TELEGRAM_CHAT_ID = 'YOUR_ADMIN_CHAT_ID'; // Replace with actual chat ID for notifications
+export const LAVA_IO_TOP_UP_URL = 'https://lava.io/pay'; 
+export const LAVA_IO_QR_CODE_IMAGE = 'https://placehold.co/256x256.png'; 
+export const ADMIN_TELEGRAM_BOT_ID = 'YOUR_ADMIN_BOT_ID'; 
+export const ADMIN_TELEGRAM_CHAT_ID = 'YOUR_ADMIN_CHAT_ID'; 
+
 
