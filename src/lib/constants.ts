@@ -16,14 +16,14 @@ export const MOCK_CATEGORIES: Category[] = [
   {
     id: 'neural-networks',
     name: 'Neural Networks',
-    description: 'Access to powerful AI models and tools.',
+    description: 'Доступ к мощным ИИ-моделям и инструментам.', // Translated
     image: 'https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxBSSUyMHRlY2hub2xvZ3l8ZW58MHx8fHwxNzQ3MjkxOTgwfDA&ixlib=rb-4.1.0&q=80&w=1080',
     dataAiHint: 'AI technology',
   },
   {
     id: 'proxies',
     name: 'Proxies',
-    description: 'Secure and anonymous proxy servers.',
+    description: 'Безопасные и анонимные прокси-серверы.', // Translated
     image: 'https://images.unsplash.com/photo-1604005366359-2f8f2a044336?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxuZXR3b3JrJTIwc2VydmVyfGVufDB8fHx8MTc0NzI5MTk4MHww&ixlib=rb-4.1.0&q=80&w=1080',
     dataAiHint: 'network server',
   },
@@ -110,5 +110,3 @@ export const LAVA_IO_TOP_UP_URL = 'https://lava.io/pay';
 export const LAVA_IO_QR_CODE_IMAGE = 'https://placehold.co/256x256.png'; 
 export const ADMIN_TELEGRAM_BOT_ID = 'YOUR_ADMIN_BOT_ID'; 
 export const ADMIN_TELEGRAM_CHAT_ID = 'YOUR_ADMIN_CHAT_ID'; 
-
-
