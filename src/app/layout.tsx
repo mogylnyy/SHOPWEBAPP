@@ -24,16 +24,6 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ru" className="dark">
-      <head>
-        {/* Next.js will inject metadata and other head elements here */}
-      </head>
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased font-sans`}
-      >
-        {children}
-        <Toaster />
-      </body>
-    </html>
+    <html lang="ru" className="dark"><head></head><body className={`${geistSans.variable} ${geistMono.variable} antialiased font-sans`}>{children}<Toaster /></body></html>
   );
 }
