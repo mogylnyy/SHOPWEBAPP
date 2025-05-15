@@ -7,7 +7,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { ShoppingCart, User, CreditCardIcon, HelpCircle, ArrowRight } from 'lucide-react';
 import { PATHS } from '@/lib/constants';
 import { useTranslation } from '@/hooks/useTranslation';
-import type { Locale } from '@/lib/i18n-config'; // Updated import
+import type { Locale } from '@/lib/i18n-config';
 import type { LucideIcon } from 'lucide-react';
 
 interface MenuItem {
@@ -48,37 +48,40 @@ export default function HomePage({ params: { locale } }: { params: { locale: Loc
   const { t } = useTranslation(locale);
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-full py-8 sm:py-12">
-      <div className="text-center mb-8 sm:mb-12 px-4">
-        <h1 className="text-3xl sm:text-5xl font-bold tracking-tight md:text-6xl bg-clip-text text-transparent bg-gradient-to-r from-primary via-accent to-primary">
+    <div className="flex flex-col items-center justify-center min-h-full py-12">
+      <div className="text-center mb-12 px-4">
+        <h1 className="text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl bg-clip-text text-transparent bg-gradient-to-r from-primary via-accent to-primary">
           {t('app_title')}
         </h1>
-        <p className="mt-2 sm:mt-3 text-md sm:text-xl text-muted-foreground">
+        <p className="mt-3 text-lg sm:mt-4 sm:text-xl text-muted-foreground">
           {t('home_page.subtitle')}
         </p>
       </div>
 
-      <div className="grid grid-cols-2 gap-2 w-full max-w-md mx-auto px-1 sm:max-w-2xl sm:gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8 w-full max-w-4xl px-4">
         {menuItems.map((item) => {
           const IconComponent = item.iconComponent;
           return (
-            <Card key={item.href} className="bg-card/70 backdrop-blur-md shadow-lg group flex flex-col overflow-hidden rounded-lg transition-shadow duration-300 hover:shadow-primary/25">
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 p-2 sm:p-3">
-                <CardTitle className="text-xs sm:text-sm md:text-base font-semibold text-primary group-hover:text-accent transition-colors">
+            <Card key={item.href} className="bg-card/80 backdrop-blur-md shadow-xl hover:shadow-primary/30 transition-shadow duration-300 group flex flex-col">
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                <CardTitle className="text-2xl font-semibold text-primary group-hover:text-accent transition-colors">
                   {t(item.labelKey)}
                 </CardTitle>
-                <IconComponent className="h-4 w-4 sm:h-5 sm:w-5 text-accent group-hover:text-primary transition-colors ml-1 shrink-0" />
+                <div className="text-accent group-hover:text-primary transition-colors">
+                  <IconComponent className="h-8 w-8" />
+                </div>
               </CardHeader>
-              <CardContent className="flex-grow flex flex-col p-2 sm:p-3 pt-1 sm:pt-1">
-                <p className="text-[10px] sm:text-xs leading-tight sm:leading-normal text-muted-foreground mb-2 flex-grow">{t(item.descriptionKey)}</p>
+              <CardContent className="flex-grow flex flex-col">
+                <p className="text-muted-foreground mb-6 flex-grow">{t(item.descriptionKey)}</p>
                 <Button
                   asChild
                   variant="outline"
-                  className="w-full btn-glow border-primary hover:border-accent group-hover:bg-accent/10 mt-auto !text-[10px] sm:!text-xs !h-7 sm:!h-8 !px-2 !py-1"
+                  size="lg"
+                  className="w-full btn-glow border-primary hover:border-accent group-hover:bg-accent/10 mt-auto"
                 >
                   <Link href={`/${locale}${item.href}`}>
-                    {t('home_page.goToShort')}
-                    <ArrowRight className="ml-1 h-3 w-3" />
+                    {`${t('home_page.goTo')} ${t(item.labelKey)}`}
+                    <ArrowRight className="ml-2 h-5 w-5" />
                   </Link>
                 </Button>
               </CardContent>
