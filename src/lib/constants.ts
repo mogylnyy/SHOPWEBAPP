@@ -35,8 +35,8 @@ export const MOCK_PRODUCTS: Product[] = [
     name: 'ChatGPT',
     description: 'Продвинутый ИИ-ассистент от OpenAI.', // Translated
     category: 'neural-networks',
-    image: 'https://placehold.co/600x400.png', // Changed from Unsplash
-    dataAiHint: 'ChatGPT logo', // Changed from 'AI chat'
+    image: 'https://i.ibb.co/k29PxyXk/CHATGPTBOTTG.png', // Updated image
+    dataAiHint: 'ChatGPT logo',
     requiresAuthDetails: false,
     subProducts: [
       { id: 'plus-subscription-renewal', name: 'Продление подписки Plus', price: 20 },
@@ -51,8 +51,8 @@ export const MOCK_PRODUCTS: Product[] = [
     name: 'Perplexity AI',
     description: 'Разговорная поисковая система и ИИ-ассистент для исследований.', // Translated
     category: 'neural-networks',
-    image: 'https://placehold.co/600x400.png', // Using placeholder
-    dataAiHint: 'AI brain', // Updated hint based on user's image
+    image: 'https://i.ibb.co/qYyHL2Zy/Perplexity-BOTTG.png', // Updated image
+    dataAiHint: 'AI brain',
     price: 25,
     requiresAuthDetails: false,
   },
@@ -110,4 +110,3 @@ export const LAVA_IO_TOP_UP_URL = 'https://lava.io/pay';
 export const LAVA_IO_QR_CODE_IMAGE = 'https://placehold.co/256x256.png';
 export const ADMIN_TELEGRAM_BOT_ID = 'YOUR_ADMIN_BOT_ID';
 export const ADMIN_TELEGRAM_CHAT_ID = 'YOUR_ADMIN_CHAT_ID';
-

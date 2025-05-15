@@ -25,6 +25,12 @@ const nextConfig: NextConfig = {
         port: '',
         pathname: '/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'i.ibb.co', // Added i.ibb.co
+        port: '',
+        pathname: '/**',
+      },
     ],
   },
   // Removed i18n block as it's for Pages Router
