@@ -48,40 +48,40 @@ export default function HomePage({ params: { locale } }: { params: { locale: Loc
   const { t } = useTranslation(locale);
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-full py-12">
-      <div className="text-center mb-12 px-4">
-        <h1 className="text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl bg-clip-text text-transparent bg-gradient-to-r from-primary via-accent to-primary">
+    <div className="flex flex-col items-center justify-center min-h-full py-8">
+      <div className="text-center mb-10 px-4">
+        <h1 className="text-4xl font-bold tracking-tight sm:text-5xl bg-clip-text text-transparent bg-gradient-to-r from-primary via-accent to-primary">
           {t('app_title')}
         </h1>
-        <p className="mt-3 text-lg sm:mt-4 sm:text-xl text-muted-foreground">
+        <p className="mt-3 text-base sm:text-lg text-muted-foreground">
           {t('home_page.subtitle')}
         </p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8 w-full max-w-4xl px-4">
+      <div className="grid grid-cols-2 gap-4 w-full max-w-md mx-auto px-2 sm:max-w-lg md:max-w-xl">
         {menuItems.map((item) => {
           const IconComponent = item.iconComponent;
           return (
-            <Card key={item.href} className="bg-card/80 backdrop-blur-md shadow-xl hover:shadow-primary/30 transition-shadow duration-300 group flex flex-col">
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-2xl font-semibold text-primary group-hover:text-accent transition-colors">
+            <Card key={item.href} className="bg-card/80 backdrop-blur-md shadow-lg hover:shadow-primary/20 transition-shadow duration-300 group flex flex-col overflow-hidden">
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 p-3 sm:p-4">
+                <CardTitle className="text-base sm:text-lg font-semibold text-primary group-hover:text-accent transition-colors">
                   {t(item.labelKey)}
                 </CardTitle>
                 <div className="text-accent group-hover:text-primary transition-colors">
-                  <IconComponent className="h-8 w-8" />
+                  <IconComponent className="h-5 w-5 sm:h-6 sm:w-6" />
                 </div>
               </CardHeader>
-              <CardContent className="flex-grow flex flex-col">
-                <p className="text-muted-foreground mb-6 flex-grow">{t(item.descriptionKey)}</p>
+              <CardContent className="flex-grow flex flex-col p-3 sm:p-4">
+                <p className="text-xs sm:text-sm text-muted-foreground mb-3 sm:mb-4 flex-grow">{t(item.descriptionKey)}</p>
                 <Button
                   asChild
                   variant="outline"
-                  size="lg"
-                  className="w-full btn-glow border-primary hover:border-accent group-hover:bg-accent/10 mt-auto"
+                  size="sm" // Smaller button
+                  className="w-full btn-glow border-primary hover:border-accent group-hover:bg-accent/10 mt-auto text-xs sm:text-sm"
                 >
                   <Link href={`/${locale}${item.href}`}>
-                    {`${t('home_page.goTo')} ${t(item.labelKey)}`}
-                    <ArrowRight className="ml-2 h-5 w-5" />
+                    {t('home_page.goToShort')}
+                    <ArrowRight className="ml-1.5 h-3.5 w-3.5 sm:h-4 sm:w-4" />
                   </Link>
                 </Button>
               </CardContent>
