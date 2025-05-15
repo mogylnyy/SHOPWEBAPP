@@ -6,7 +6,7 @@ import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { answerFAQ, type AnswerFAQInput, type AnswerFAQOutput } from '@/ai/flows/answer-faq';
-import { Bot, HelpCircle, Loader2, Send, Terminal } from 'lucide-react';
+import { Bot, HelpCircle, Loader2, Send, Terminal, Home } from 'lucide-react';
 import { useTranslation } from '@/hooks/useTranslation';
 import type { Locale } from '@/lib/i18n-config'; // Ensure Locale is imported if needed for useTranslation
 
@@ -126,6 +126,15 @@ export default function FaqClient() {
           onClick={() => window.history.back()}
         >
           ← Назад
+        </Button>
+        <Button
+          variant="outline"
+          className="mx-auto mt-2 w-32"
+          asChild
+        >
+          <a href="/">
+            <Home className="mr-2 h-5 w-5" /> Главное меню
+          </a>
         </Button>
       </CardFooter>
     </Card>
