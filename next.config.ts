@@ -1,6 +1,7 @@
 
 import type {NextConfig} from 'next';
-import { i18n } from './src/lib/i18n-config';
+// i18n config import is not needed here if the i18n block is removed.
+// import { i18n } from './src/lib/i18n-config'; 
 
 const nextConfig: NextConfig = {
   /* config options here */
@@ -20,10 +21,11 @@ const nextConfig: NextConfig = {
       },
     ],
   },
-  i18n: {
-    locales: i18n.locales,
-    defaultLocale: i18n.defaultLocale,
-  },
+  // Removed i18n block as it's for Pages Router
+  // i18n: {
+  //   locales: i18n.locales,
+  //   defaultLocale: i18n.defaultLocale,
+  // },
 };
 
 export default nextConfig;
