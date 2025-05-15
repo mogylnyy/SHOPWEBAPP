@@ -13,7 +13,8 @@ import { CheckCircle, Clipboard, MessageSquare } from 'lucide-react';
 function OrderConfirmationContent() {
   const searchParams = useSearchParams();
   const { toast } = useToast();
-  const { t } = useTranslation(searchParams.get('locale') as Locale || undefined); // Pass locale if available in params
+  // The locale for useTranslation will be picked from path params by the hook itself
+  const { t } = useTranslation(undefined);
 
   const [orderId, setOrderId] = useState<string | null>(null);
   const [productName, setProductName] = useState<string | null>(null);
@@ -22,35 +23,41 @@ function OrderConfirmationContent() {
 
   const orderIdFromUrl = searchParams.get('orderId');
   const productNameFromUrl = searchParams.get('productName');
-  const subProductNameFromUrl = searchParams.get('subProductName'); // Исправлена опечатка здесь
+  const subProductNameFromUrl = searchParams.get('subProductName');
 
   useEffect(() => {
-    setOrderId(orderIdFromUrl);
-    setProductName(productNameFromUrl);
-    setSubProductName(subProductNameFromUrl);
-  }, [orderIdFromUrl, productNameFromUrl, subProductNameFromUrl]);
+    if (orderIdFromUrl !== orderId) {
+      setOrderId(orderIdFromUrl);
+    }
+    if (productNameFromUrl !== productName) {
+      setProductName(productNameFromUrl);
+    }
+    if (subProductNameFromUrl !== subProductName) {
+      setSubProductName(subProductNameFromUrl);
+    }
+  }, [orderIdFromUrl, productNameFromUrl, subProductNameFromUrl, orderId, productName, subProductName]);
 
-  if (!orderId || !productNameFromUrl) { // Проверяем productNameFromUrl, т.к. productName стейт может быть еще не обновлен
+  if (!orderId || !productNameFromUrl) {
     return (
       <div className="flex flex-col items-center justify-center min-h-[calc(100vh-8rem)] text-center p-4">
         <svg className="animate-spin h-10 w-10 text-primary mb-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
           <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
           <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
         </svg>
-        <p className="text-muted-foreground">Загрузка информации о заказе...</p>
+        <p className="text-muted-foreground">{t('order_confirmation_page.loading_text')}</p>
       </div>
     );
   }
 
-  const decodedProductName = decodeURIComponent(productNameFromUrl); // Используем productNameFromUrl для декодирования
+  const decodedProductName = decodeURIComponent(productNameFromUrl);
   const decodedSubProductName = subProductNameFromUrl ? decodeURIComponent(subProductNameFromUrl) : null;
 
   const fullProductName = decodedSubProductName ? `${decodedProductName} (${decodedSubProductName})` : decodedProductName;
 
-  const messageToCopy = `Здравствуйте! Я приобрел у вас товар!
+  const messageToCopy = `${t('order_confirmation_page.telegram_message_greeting')}
 
-ID заказа: ${orderId}
-Товар: ${fullProductName}`;
+${t('order_confirmation_page.order_id_label')} ${orderId}
+${t('order_confirmation_page.product_label')} ${fullProductName}`;
 
   const handleCopy = () => {
     navigator.clipboard.writeText(messageToCopy).then(() => {
@@ -62,8 +69,8 @@ ID заказа: ${orderId}
     }).catch(err => {
       console.error("Failed to copy: ", err);
       toast({
-        title: "Ошибка",
-        description: "Не удалось скопировать текст. Пожалуйста, скопируйте вручную.",
+        title: t('order_confirmation_page.copy_error_toast_title'),
+        description: t('order_confirmation_page.copy_error_toast_description'),
         variant: "destructive"
       });
     });
@@ -133,9 +140,12 @@ ID заказа: ${orderId}
 
 export default function OrderConfirmationPage() {
   return (
-    <Suspense fallback={<div className="flex justify-center items-center min-h-screen"><p>Загрузка...</p></div>}>
+    <Suspense fallback={<div className="flex justify-center items-center min-h-screen"><p>{
+      // Directly using Russian text for fallback as useTranslation isn't available here easily
+      // In a more complex setup, this could be a global loading component or a simpler text
+      "Загрузка..."
+    }</p></div>}>
       <OrderConfirmationContent />
     </Suspense>
   );
 }
-
