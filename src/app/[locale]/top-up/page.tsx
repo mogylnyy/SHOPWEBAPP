@@ -5,11 +5,11 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { LAVA_IO_TOP_UP_URL, LAVA_IO_QR_CODE_IMAGE } from '@/lib/constants';
 import { CreditCard, QrCode, ExternalLink } from 'lucide-react';
-import { useTranslation } from '@/hooks/useTranslation';
+import { getTranslations } from '@/lib/i18n-server'; // Changed from useTranslation
 import type { Locale } from '@/lib/i18n-config';
 
-export default function TopUpPage({ params }: { params: { locale: Locale }}) {
-  const { t } = useTranslation(params.locale);
+export default async function TopUpPage({ params }: { params: { locale: Locale }}) { // Made async
+  const { t } = getTranslations(params.locale); // Changed from useTranslation
 
   return (
     <div className="max-w-lg mx-auto">

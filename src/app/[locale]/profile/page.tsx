@@ -3,10 +3,10 @@ import { MOCK_USER_PROFILE, PATHS } from '@/lib/constants';
 import type { UserProfile } from '@/types';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { User, DollarSign, ShoppingBag, LogOut, CreditCardIcon } from 'lucide-react';
+import { DollarSign, ShoppingBag, LogOut, CreditCardIcon } from 'lucide-react'; // Corrected: User icon not used, CreditCardIcon is used
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
-import { useTranslation } from '@/hooks/useTranslation';
+import { getTranslations } from '@/lib/i18n-server'; // Changed from useTranslation
 import type { Locale } from '@/lib/i18n-config';
 
 // Simulate API call
@@ -16,7 +16,7 @@ async function getUserProfile(): Promise<UserProfile> {
 
 export default async function ProfilePage({ params }: { params: { locale: Locale }}) {
   const user = await getUserProfile();
-  const { t } = useTranslation(params.locale);
+  const { t } = getTranslations(params.locale); // Changed from useTranslation
 
   return (
     <div className="max-w-2xl mx-auto">

@@ -4,7 +4,7 @@ import { MOCK_CATEGORIES, MOCK_PRODUCTS, PATHS } from '@/lib/constants';
 import type { Category, Product } from '@/types';
 import Link from 'next/link';
 import { ChevronRight, Home } from 'lucide-react';
-import { useTranslation } from '@/hooks/useTranslation';
+import { getTranslations } from '@/lib/i18n-server'; // Changed from useTranslation
 import type { Locale } from '@/lib/i18n-config';
 import { i18n } from '@/lib/i18n-config';
 
@@ -20,7 +20,7 @@ async function getProductsByCategory(categoryId: string): Promise<Product[]> {
 
 export default async function CategoryProductsPage({ params }: { params: { category: string; locale: Locale } }) {
   const categoryId = params.category;
-  const { t } = useTranslation(params.locale); // Initialize translation hook
+  const { t } = getTranslations(params.locale); // Changed from useTranslation
   const category = await getCategoryDetails(categoryId);
   const products = await getProductsByCategory(categoryId);
 

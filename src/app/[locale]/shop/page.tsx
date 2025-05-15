@@ -2,7 +2,7 @@
 import CategoryCard from '@/components/CategoryCard';
 import { MOCK_CATEGORIES, PATHS } from '@/lib/constants';
 import type { Category } from '@/types';
-import { useTranslation } from '@/hooks/useTranslation';
+import { getTranslations } from '@/lib/i18n-server'; // Changed from useTranslation
 import type { Locale } from '@/lib/i18n-config';
 
 // Simulate API call
@@ -12,7 +12,7 @@ async function getCategories(): Promise<Category[]> {
 
 export default async function ShopCategoriesPage({ params }: { params: { locale: Locale }}) {
   const categories = await getCategories();
-  const { t } = useTranslation(params.locale);
+  const { t } = getTranslations(params.locale); // Changed from useTranslation
 
   return (
     <div className="space-y-8">
