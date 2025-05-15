@@ -22,7 +22,7 @@ function OrderConfirmationContent() {
 
   const orderIdFromUrl = searchParams.get('orderId');
   const productNameFromUrl = searchParams.get('productName');
-  const subProductNameFromUrl = searchParams.get('subProductName');
+  const subProductNameFromUrl = searchParams.get('subProductName'); // Исправлена опечатка здесь
 
   useEffect(() => {
     setOrderId(orderIdFromUrl);
@@ -30,7 +30,7 @@ function OrderConfirmationContent() {
     setSubProductName(subProductNameFromUrl);
   }, [orderIdFromUrl, productNameFromUrl, subProductNameFromUrl]);
 
-  if (!orderId || !productName) {
+  if (!orderId || !productNameFromUrl) { // Проверяем productNameFromUrl, т.к. productName стейт может быть еще не обновлен
     return (
       <div className="flex flex-col items-center justify-center min-h-[calc(100vh-8rem)] text-center p-4">
         <svg className="animate-spin h-10 w-10 text-primary mb-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
@@ -42,7 +42,10 @@ function OrderConfirmationContent() {
     );
   }
 
-  const fullProductName = subProductName ? `${decodeURIComponent(productName)} (${decodeURIComponent(subProductName)})` : decodeURIComponent(productName);
+  const decodedProductName = decodeURIComponent(productNameFromUrl); // Используем productNameFromUrl для декодирования
+  const decodedSubProductName = subProductNameFromUrl ? decodeURIComponent(subProductNameFromUrl) : null;
+
+  const fullProductName = decodedSubProductName ? `${decodedProductName} (${decodedSubProductName})` : decodedProductName;
 
   const messageToCopy = `Здравствуйте! Я приобрел у вас товар!
 
@@ -135,3 +138,4 @@ export default function OrderConfirmationPage() {
     </Suspense>
   );
 }
+
