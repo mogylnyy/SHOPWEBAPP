@@ -93,6 +93,17 @@ export default function FaqClient() {
             </CardHeader>
             <CardContent className="space-y-3">
               <p className="text-foreground whitespace-pre-wrap leading-relaxed">{response.answer}</p>
+              {response.needsSupport && (
+                <a
+                  href="https://t.me/iimperium_support"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-block bg-gradient-to-r from-purple-600 to-blue-500 text-white px-5 py-2 rounded-lg shadow-md hover:scale-105 transition mt-4"
+                >
+                  💬 Обратиться в поддержку
+                </a>
+              )}
+              {/* Legacy useSolutionTool alert - will not show as useSolutionTool is always false now */}
               {response.useSolutionTool && (
                  <Alert variant="default" className="border-accent bg-accent/10">
                     <Terminal className="h-4 w-4 text-accent" />
