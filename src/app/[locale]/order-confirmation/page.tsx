@@ -13,18 +13,22 @@ import { CheckCircle, Clipboard, MessageSquare } from 'lucide-react';
 function OrderConfirmationContent() {
   const searchParams = useSearchParams();
   const { toast } = useToast();
-  const { t, locale } = useTranslation(searchParams.get('locale') as Locale || undefined); // Pass locale if available in params
+  const { t } = useTranslation(searchParams.get('locale') as Locale || undefined); // Pass locale if available in params
 
   const [orderId, setOrderId] = useState<string | null>(null);
   const [productName, setProductName] = useState<string | null>(null);
   const [subProductName, setSubProductName] = useState<string | null>(null);
   const [hasCopiedOrder, setHasCopiedOrder] = useState(false);
 
+  const orderIdFromUrl = searchParams.get('orderId');
+  const productNameFromUrl = searchParams.get('productName');
+  const subProductNameFromUrl = searchParams.get('subProductName');
+
   useEffect(() => {
-    setOrderId(searchParams.get('orderId'));
-    setProductName(searchParams.get('productName'));
-    setSubProductName(searchParams.get('subProductName'));
-  }, [searchParams]);
+    setOrderId(orderIdFromUrl);
+    setProductName(productNameFromUrl);
+    setSubProductName(subProductNameFromUrl);
+  }, [orderIdFromUrl, productNameFromUrl, subProductNameFromUrl]);
 
   if (!orderId || !productName) {
     return (
@@ -38,7 +42,7 @@ function OrderConfirmationContent() {
     );
   }
 
-  const fullProductName = subProductName ? `${productName} (${decodeURIComponent(subProductName)})` : decodeURIComponent(productName);
+  const fullProductName = subProductName ? `${decodeURIComponent(productName)} (${decodeURIComponent(subProductName)})` : decodeURIComponent(productName);
 
   const messageToCopy = `Здравствуйте! Я приобрел у вас товар!
 
