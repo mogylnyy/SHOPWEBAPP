@@ -29,7 +29,8 @@
   },
   "shop_page": {
     "categories_title": "Категории товаров",
-    "categories_subtitle": "Ознакомьтесь с нашим ассортиментом цифровых продуктов и услуг."
+    "categories_subtitle": "Ознакомьтесь с нашим ассортиментом цифровых продуктов и услуг.",
+    "no_categories_available": "На данный момент нет доступных категорий."
   },
   "profile_page": {
     "title": "Ваш профиль",
@@ -41,7 +42,7 @@
   },
   "top_up_page": {
     "title": "Пополнить баланс",
-    "subtitle": "Пополните свой счет QuickBuy TG.",
+    "subtitle": "Пополните свой счет ИИMPERIUM SHOP.",
     "lava_method": "Через Lava.io",
     "lava_description": "Нажмите кнопку ниже, чтобы перейти на Lava.io для безопасного пополнения.",
     "lava_button": "Перейти на Lava.io",
@@ -93,7 +94,13 @@
     "purchase_form_2fa_description": "Отметьте, если нам нужно обработать код 2FA для этой услуги.",
     "purchase_form_error_alert_title": "Ошибка",
     "purchase_form_buy_button_processing": "Обработка...",
-    "purchase_form_buy_button_prefix": "Купить за"
+    "purchase_form_buy_button_prefix": "Купить за",
+    "purchase_form_insufficient_balance_title": "Недостаточно средств",
+    "purchase_form_insufficient_balance_description": "На вашем балансе недостаточно средств для этой покупки. Перенаправляем на страницу пополнения.",
+    "purchase_form_purchase_successful_title": "Покупка успешна!",
+    "purchase_form_purchase_failed_title": "Ошибка покупки",
+    "purchase_form_generic_error_message": "Произошла непредвиденная ошибка во время покупки.",
+    "purchase_form_invalid_data_message": "Неверные данные формы. Пожалуйста, проверьте введенные данные."
   },
   "category_page": {
     "home_breadcrumb": "Главная",
@@ -103,9 +110,13 @@
   },
   "product_card": {
     "view_options_button": "Выбрать опции",
-    "view_details_button": "Подробнее"
+    "view_details_button": "Подробнее",
+    "price_not_available": "Цена не указана"
   },
   "category_card": {
     "view_products_button": "Смотреть товары"
+  },
+  "footer": {
+    "copyright": "© {year} ИИMPERIUM SHOP. Все права защищены."
   }
 }

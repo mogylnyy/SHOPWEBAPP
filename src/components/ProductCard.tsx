@@ -16,22 +16,22 @@ type ProductCardProps = {
   locale: Locale; // Added locale prop
 };
 
-function getPriceDisplay(product: Product): string {
+function getPriceDisplay(product: Product, t: (key: string) => string): string {
   if (product.subProducts && product.subProducts.length > 0) {
     const prices = product.subProducts.map(sp => sp.price);
     const minPrice = Math.min(...prices);
     const maxPrice = Math.max(...prices);
     if (minPrice === maxPrice) {
-      return `$${minPrice.toFixed(2)}`;
+      return `${minPrice.toFixed(2)} ₽`;
     }
-    return `$${minPrice.toFixed(2)} - $${maxPrice.toFixed(2)}`;
+    return `${minPrice.toFixed(2)} ₽ - ${maxPrice.toFixed(2)} ₽`;
   }
-  return product.price ? `$${product.price.toFixed(2)}` : 'N/A';
+  return product.price ? `${product.price.toFixed(2)} ₽` : t('product_card.price_not_available');
 }
 
 export default function ProductCard({ product, locale }: ProductCardProps) {
   const { t } = useTranslation(locale);
-  const priceDisplay = getPriceDisplay(product);
+  const priceDisplay = getPriceDisplay(product, t);
 
   return (
     <Card className="overflow-hidden h-full flex flex-col bg-card/70 backdrop-blur-md shadow-lg hover:shadow-primary/20 transition-shadow duration-300 group">

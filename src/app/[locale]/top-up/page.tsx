@@ -5,11 +5,11 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { LAVA_IO_TOP_UP_URL, LAVA_IO_QR_CODE_IMAGE } from '@/lib/constants';
 import { CreditCard, QrCode, ExternalLink } from 'lucide-react';
-import { getTranslations } from '@/lib/i18n-server'; // Changed from useTranslation
+import { getTranslations } from '@/lib/i18n-server';
 import type { Locale } from '@/lib/i18n-config';
 
-export default async function TopUpPage({ params }: { params: { locale: Locale }}) { // Made async
-  const { t } = await getTranslations(params.locale); // Changed from useTranslation
+export default async function TopUpPage({ params }: { params: { locale: Locale }}) {
+  const { t } = await getTranslations(params.locale);
 
   return (
     <div className="max-w-lg mx-auto">
@@ -57,7 +57,7 @@ export default async function TopUpPage({ params }: { params: { locale: Locale }
             <div className="flex justify-center p-4 border rounded-lg bg-background/50">
               <Image
                 src={LAVA_IO_QR_CODE_IMAGE}
-                alt="Lava.io QR Code for Top-Up" // Consider translating alt text if needed
+                alt={t('top_up_page.qr_method')} // Translated alt text
                 width={200}
                 height={200}
                 className="rounded-md shadow-md"
@@ -70,3 +70,4 @@ export default async function TopUpPage({ params }: { params: { locale: Locale }
     </div>
   );
 }
+

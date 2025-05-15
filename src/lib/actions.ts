@@ -1,42 +1,32 @@
+
 'use server';
 
 import { z } from 'zod';
-import { redirect } from 'next/navigation';
+// import { redirect } from 'next/navigation'; // Not used for now for client-side redirect handling
 import { MOCK_USER_PROFILE, ADMIN_TELEGRAM_BOT_ID, ADMIN_TELEGRAM_CHAT_ID, PATHS } from './constants';
 import type { OrderDetails } from '@/types';
+import type { Locale } from './i18n-config'; // For potential localized messages from action
+import { getTranslations } from './i18n-server'; // For localized messages
 
 // Simulate backend API calls
 async function checkUserBalance(userId: string, amount: number): Promise<boolean> {
-  // const user = await fetch(`/api/users/${userId}/balance`).then(res => res.json());
-  // return user.balance >= amount;
-  await new Promise(resolve => setTimeout(resolve, 500)); // Simulate network delay
+  await new Promise(resolve => setTimeout(resolve, 500));
   return MOCK_USER_PROFILE.balance >= amount;
 }
 
 async function processPayment(userId: string, amount: number): Promise<boolean> {
-  // await fetch(`/api/transactions`, { method: 'POST', body: JSON.stringify({ userId, amount }) });
   await new Promise(resolve => setTimeout(resolve, 500));
-  // For mock, reduce balance
   MOCK_USER_PROFILE.balance -= amount;
   return true;
 }
 
 async function recordOrder(orderDetails: OrderDetails): Promise<string> {
-  // const order = await fetch(`/api/orders`, { method: 'POST', body: JSON.stringify(orderDetails) }).then(res => res.json());
-  // return order.id;
   await new Promise(resolve => setTimeout(resolve, 500));
   return `mock_order_${Date.now()}`;
 }
 
 async function sendTelegramNotification(message: string): Promise<void> {
   console.log(`TELEGRAM NOTIFICATION TO ADMIN (${ADMIN_TELEGRAM_CHAT_ID} via ${ADMIN_TELEGRAM_BOT_ID}): ${message}`);
-  // In a real app, use a Telegram Bot API library or fetch:
-  // const telegramApiUrl = `https://api.telegram.org/bot${ADMIN_TELEGRAM_BOT_ID}/sendMessage`;
-  // await fetch(telegramApiUrl, {
-  //   method: 'POST',
-  //   headers: { 'Content-Type': 'application/json' },
-  //   body: JSON.stringify({ chat_id: ADMIN_TELEGRAM_CHAT_ID, text: message, parse_mode: 'Markdown' }),
-  // });
   await new Promise(resolve => setTimeout(resolve, 300));
 }
 
@@ -49,6 +39,7 @@ const purchaseFormSchema = z.object({
   login: z.string().optional(),
   password: z.string().optional(),
   twoFactorEnabled: z.boolean().optional(),
+  locale: z.string(), // For localized messages
 });
 
 export type PurchaseFormState = {
@@ -67,49 +58,43 @@ export async function initiatePurchase(
   formData: FormData
 ): Promise<PurchaseFormState> {
   const rawFormData = Object.fromEntries(formData.entries());
-  // Convert amount to number and twoFactorEnabled to boolean
   const processedFormData = {
       ...rawFormData,
       amount: parseFloat(rawFormData.amount as string),
       twoFactorEnabled: rawFormData.twoFactorEnabled === 'on' || rawFormData.twoFactorEnabled === 'true',
+      locale: rawFormData.locale as Locale || 'ru', // Default to 'ru' if not provided
   };
 
   const validatedFields = purchaseFormSchema.safeParse(processedFormData);
+  const { t } = await getTranslations(processedFormData.locale as Locale);
+
 
   if (!validatedFields.success) {
     return {
-      message: 'Invalid form data. Please check your input.',
+      message: t('product_details_page.purchase_form_invalid_data_message'),
       errors: validatedFields.error.flatten().fieldErrors,
       success: false,
     };
   }
 
   const { productId, productName, subProductId, subProductName, amount, login, password, twoFactorEnabled } = validatedFields.data;
-  const userId = MOCK_USER_PROFILE.id; // Get from auth session in real app
+  const userId = MOCK_USER_PROFILE.id;
 
   try {
-    // 1. Balance Check
     const hasSufficientBalance = await checkUserBalance(userId, amount);
     if (!hasSufficientBalance) {
-      // This redirect should ideally happen client-side before form submission,
-      // but server-side check is a fallback.
-      // For a better UX, client-side check + server-side re-validation is preferred.
-      // redirect(PATHS.TOP_UP); // Next.js Server Actions redirect
       return {
-        message: 'Insufficient balance. Please top up your account.',
+        message: t('product_details_page.purchase_form_insufficient_balance_description'),
         success: false,
         errors: { general: ['Insufficient balance. Please top up your account. Redirecting... (simulated)'] }
-        // Consider adding a specific field to indicate redirect for client-side handling
       };
     }
 
-    // 2. Process Payment (simulated)
     const paymentSuccessful = await processPayment(userId, amount);
     if (!paymentSuccessful) {
-      return { message: 'Payment processing failed.', success: false };
+      return { message: t('product_details_page.purchase_form_purchase_failed_title'), success: false }; // More specific message if possible
     }
 
-    // 3. Record Order
     const orderDetails: OrderDetails = {
       productId,
       productName,
@@ -123,34 +108,30 @@ export async function initiatePurchase(
     };
     const orderId = await recordOrder(orderDetails);
 
-    // 4. Admin Notification
     const notificationMessage = `
-      New Purchase!
-      --------------------
-      User ID: ${userId}
-      Product: ${productName}${subProductName ? ` (${subProductName})` : ''}
-      Amount: $${amount.toFixed(2)}
-      Order ID: ${orderId}
-      ${login ? `Login: ${login}` : ''}
+Новая покупка!
+--------------------
+ID Пользователя: ${userId}
+Товар: ${productName}${subProductName ? ` (${subProductName})` : ''}
+Сумма: ${amount.toFixed(2)} ₽
+ID Заказа: ${orderId}
+${login ? `Логин: ${login}` : ''}
     `.trim().replace(/^      /gm, '');
     await sendTelegramNotification(notificationMessage);
     
-    // 5. Success: Redirect to chat or provide confirmation
-    // This example simulates a redirect to an embedded chat.
-    // In a real scenario, you might redirect to a specific URL or return data to show a success message.
     return {
-      message: `Purchase successful! Order ID: ${orderId}. You will be redirected to chat.`,
+      message: `${t('product_details_page.purchase_form_purchase_successful_title')} ID Заказа: ${orderId}. Вы будете перенаправлены.`, // Simplified, chat part removed for now
       success: true,
       orderId,
-      redirectToChat: true, // This flag can be used by the client to handle redirection
+      redirectToChat: true, 
     };
 
   } catch (error) {
     console.error('Purchase error:', error);
     return {
-      message: 'An unexpected error occurred during purchase.',
+      message: t('product_details_page.purchase_form_generic_error_message'),
       success: false,
-      errors: { general: ['An unexpected server error occurred.'] }
+      errors: { general: [t('product_details_page.purchase_form_generic_error_message')] }
     };
   }
 }

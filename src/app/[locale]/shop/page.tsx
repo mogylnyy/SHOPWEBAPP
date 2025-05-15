@@ -24,7 +24,7 @@ export default async function ShopCategoriesPage({ params }: { params: { locale:
       </div>
 
       {categories.length === 0 ? (
-        <p className="text-center text-muted-foreground">No categories available at the moment.</p> 
+        <p className="text-center text-muted-foreground">{t('shop_page.no_categories_available')}</p> 
       ) : (
         <div className="grid grid-cols-2 gap-4"> {/* Changed grid classes here */}
           {categories.map((category) => (

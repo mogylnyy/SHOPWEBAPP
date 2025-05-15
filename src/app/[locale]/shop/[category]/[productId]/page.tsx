@@ -60,7 +60,7 @@ export default function ProductDetailsPage() {
     return (
       <div className="flex justify-center items-center min-h-[calc(100vh-200px)]">
         <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-primary"></div>
-        {/* Consider adding {t('product_details_page.loading_text')} here for accessibility */}
+        <p className="ml-4">{t('product_details_page.loading_text')}</p>
       </div>
     );
   }
@@ -103,7 +103,7 @@ export default function ProductDetailsPage() {
           </CardHeader>
           <CardContent>
             <div className="flex items-center text-3xl font-bold text-accent my-4">
-              <Tag className="h-7 w-7 mr-2 text-primary" /> ${displayPrice.toFixed(2)}
+              <Tag className="h-7 w-7 mr-2 text-primary" /> {displayPrice.toFixed(2)} ₽
             </div>
 
             {product.subProducts && product.subProducts.length > 0 && (
@@ -124,7 +124,7 @@ export default function ProductDetailsPage() {
                         <RadioGroupItem value={sub.id} id={sub.id} />
                         <span className="font-medium text-foreground">{sub.name}</span>
                       </div>
-                      <span className="font-semibold text-accent">${sub.price.toFixed(2)}</span>
+                      <span className="font-semibold text-accent">{sub.price.toFixed(2)} ₽</span>
                     </Label>
                   ))}
                 </RadioGroup>
