@@ -2,7 +2,7 @@
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
-import { useFormState } from 'react-dom';
+import { useActionState, useEffect, useState } from 'react'; // Changed from react-dom to react and useFormState to useActionState
 import { z } from 'zod';
 import { Button } from '@/components/ui/button';
 import {
@@ -19,7 +19,6 @@ import { Switch } from '@/components/ui/switch';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import type { Product, SubProduct, UserProfile } from '@/types';
 import { initiatePurchase, type PurchaseFormState } from '@/lib/actions';
-import { useEffect, useState } from 'react';
 import { useToast } from '@/hooks/use-toast';
 import { useRouter } from 'next/navigation';
 import { MOCK_USER_PROFILE, PATHS } from '@/lib/constants'; // For balance check simulation
@@ -72,7 +71,7 @@ export default function PurchaseForm({ product, selectedSubProduct }: PurchaseFo
     },
   });
 
-  const [state, formAction] = useFormState<PurchaseFormState | undefined, FormData>(initiatePurchase, undefined);
+  const [state, formAction] = useActionState<PurchaseFormState | undefined, FormData>(initiatePurchase, undefined); // Changed useFormState to useActionState
   const [userBalance, setUserBalance] = useState(MOCK_USER_PROFILE.balance); // Simulate fetching balance
 
   useEffect(() => {
