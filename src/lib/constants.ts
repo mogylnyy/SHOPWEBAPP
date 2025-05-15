@@ -51,8 +51,8 @@ export const MOCK_PRODUCTS: Product[] = [
     name: 'Perplexity AI',
     description: 'Разговорная поисковая система и ИИ-ассистент для исследований.', // Translated
     category: 'neural-networks',
-    image: 'https://images.unsplash.com/photo-1745674684639-9cef0092212c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxBSSUyMHNlYXJjaHxlbnwwfHx8fDE3NDcyOTU4ODV8MA&ixlib=rb-4.1.0&q=80&w=1080', // Kept existing Unsplash image
-    dataAiHint: 'AI search', // Kept existing hint
+    image: 'https://placehold.co/600x400.png', // Using placeholder
+    dataAiHint: 'AI brain', // Updated hint based on user's image
     price: 25,
     requiresAuthDetails: false,
   },
@@ -110,3 +110,4 @@ export const LAVA_IO_TOP_UP_URL = 'https://lava.io/pay';
 export const LAVA_IO_QR_CODE_IMAGE = 'https://placehold.co/256x256.png';
 export const ADMIN_TELEGRAM_BOT_ID = 'YOUR_ADMIN_BOT_ID';
 export const ADMIN_TELEGRAM_CHAT_ID = 'YOUR_ADMIN_CHAT_ID';
+
