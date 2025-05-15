@@ -2,7 +2,7 @@ import { MOCK_USER_PROFILE, PATHS } from '@/lib/constants';
 import type { UserProfile } from '@/types';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { User, DollarSign, ShoppingBag, LogOut } from 'lucide-react';
+import { User, DollarSign, ShoppingBag, LogOut, CreditCard } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 
