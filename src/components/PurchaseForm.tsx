@@ -75,16 +75,7 @@ export default function PurchaseForm({ product, selectedSubProduct }: PurchaseFo
       })
     : purchaseFormSchemaBase;
 
-  type PurchaseFormValues = {
-    productId: string;
-    productName: string;
-    subProductId?: string;
-    subProductName?: string;
-    amount: number;
-    login?: string;
-    password?: string;
-    twoFactorEnabled?: boolean;
-  };
+  type PurchaseFormValues = z.infer<typeof currentFormSchema>;
 
   const form = useForm<PurchaseFormValues>({
     resolver: zodResolver(currentFormSchema),
