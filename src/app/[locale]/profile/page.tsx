@@ -1,10 +1,9 @@
-
 import { MOCK_USER_PROFILE, PATHS } from '@/lib/constants';
 import type { UserProfile } from '@/types';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 // Avatar components are no longer needed
 // import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'; 
-import { DollarSign, ShoppingBag, CreditCardIcon } from 'lucide-react'; // LogOut icon removed
+import { DollarSign, ShoppingBag, CreditCardIcon, Home } from 'lucide-react'; // LogOut icon removed
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { getTranslations } from '@/lib/i18n-server';
@@ -51,6 +50,12 @@ export default async function ProfilePage({ params }: { params: { locale: Locale
           
           <Button variant="outline" className="w-full" disabled>
             <ShoppingBag className="mr-2 h-5 w-5" /> {t('profile_page.order_history_button')}
+          </Button>
+
+          <Button variant="outline" className="w-full" asChild>
+            <Link href={`/${params.locale}/`}>
+              <Home className="mr-2 h-5 w-5" /> Главное меню
+            </Link>
           </Button>
           
           {/* Logout button removed */}
