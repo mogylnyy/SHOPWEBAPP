@@ -2,7 +2,7 @@
 import CategoryCard from '@/components/CategoryCard';
 import { MOCK_CATEGORIES, PATHS } from '@/lib/constants';
 import type { Category } from '@/types';
-import { getTranslations } from '@/lib/i18n-server'; // Changed from useTranslation
+import { getTranslations } from '@/lib/i18n-server'; 
 import type { Locale } from '@/lib/i18n-config';
 
 // Simulate API call
@@ -12,7 +12,7 @@ async function getCategories(): Promise<Category[]> {
 
 export default async function ShopCategoriesPage({ params }: { params: { locale: Locale }}) {
   const categories = await getCategories();
-  const { t } = await getTranslations(params.locale); // Changed from useTranslation
+  const { t } = await getTranslations(params.locale); 
 
   return (
     <div className="space-y-8">
@@ -24,9 +24,9 @@ export default async function ShopCategoriesPage({ params }: { params: { locale:
       </div>
 
       {categories.length === 0 ? (
-        <p className="text-center text-muted-foreground">No categories available at the moment.</p> // Consider translating
+        <p className="text-center text-muted-foreground">No categories available at the moment.</p> 
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-2 gap-4"> {/* Changed grid classes here */}
           {categories.map((category) => (
             <CategoryCard key={category.id} category={category} locale={params.locale} />
           ))}
@@ -35,3 +35,4 @@ export default async function ShopCategoriesPage({ params }: { params: { locale:
     </div>
   );
 }
+
