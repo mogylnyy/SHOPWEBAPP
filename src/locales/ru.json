@@ -1,0 +1,96 @@
+
+{
+  "app_title": "QuickBuy TG",
+  "home_page": {
+    "subtitle": "Ваш универсальный магазин цифровых товаров и услуг.",
+    "menu": {
+      "shop": {
+        "label": "Магазин",
+        "description": "Просмотрите наш каталог товаров и услуг."
+      },
+      "profile": {
+        "label": "Профиль",
+        "description": "Просмотр данных вашей учетной записи и истории заказов."
+      },
+      "topUp": {
+        "label": "Пополнить",
+        "description": "Пополните баланс вашего счета."
+      },
+      "help": {
+        "label": "Помощь",
+        "description": "Получите помощь и быстро найдите ответы."
+      }
+    },
+    "goTo": "Перейти в",
+    "goToShort": "Перейти"
+  },
+  "header": {
+    "language_switcher_label": "Язык"
+  },
+  "shop_page": {
+    "categories_title": "Категории товаров",
+    "categories_subtitle": "Ознакомьтесь с нашим ассортиментом цифровых продуктов и услуг."
+  },
+  "profile_page": {
+    "title": "Ваш профиль",
+    "subtitle": "Управляйте данными своей учетной записи и просматривайте свою активность.",
+    "current_balance": "Текущий баланс",
+    "top_up_button": "Пополнить баланс",
+    "order_history_button": "История заказов",
+    "logout_button": "Выйти"
+  },
+  "top_up_page": {
+    "title": "Пополнить баланс",
+    "subtitle": "Пополните свой счет QuickBuy TG.",
+    "lava_method": "Через Lava.io",
+    "lava_description": "Нажмите кнопку ниже, чтобы перейти на Lava.io для безопасного пополнения.",
+    "lava_button": "Перейти на Lava.io",
+    "or_divider": "Или",
+    "qr_method": "Сканировать QR-код",
+    "qr_description": "Отсканируйте QR-код ниже с помощью совместимого платежного приложения. (Это заглушка)"
+  },
+  "help_page": {
+    "title": "Центр помощи с ИИ",
+    "subtitle": "Задайте вопрос, и наш ИИ-ассистент постарается вам помочь.",
+    "input_placeholder": "например, Как пополнить баланс?",
+    "send_button_sr": "Отправить",
+    "thinking": "Думаем...",
+    "error_title": "Ошибка",
+    "ai_response_title": "Ответ ИИ",
+    "solution_alert_title": "Найдено возможное решение",
+    "solution_alert_description": "Наш ИИ нашел подходящее решение. Для получения дополнительной информации вы можете проверить нашу базу знаний или обратиться в службу поддержки.",
+    "footer_note": "Ответы ИИ предназначены для информационных целей. При критических проблемах обращайтесь в службу поддержки."
+  },
+  "product_details_page": {
+    "home_breadcrumb": "Главная",
+    "shop_breadcrumb": "Магазин",
+    "select_option_title": "Выберите вариант:",
+    "option_details_prefix": "Детали варианта:",
+    "loading_text": "Загрузка товара...",
+    "purchase_form_title_prefix": "Покупка:",
+    "purchase_form_description_prefix": "Завершите покупку за",
+    "purchase_form_current_balance": "Ваш текущий баланс:",
+    "purchase_form_login_label": "Логин/Email",
+    "purchase_form_login_placeholder": "ваш_логин",
+    "purchase_form_password_label": "Пароль",
+    "purchase_form_password_placeholder": "ваш_пароль",
+    "purchase_form_2fa_label": "Включить обработку 2FA",
+    "purchase_form_2fa_description": "Отметьте, если нам нужно обработать код 2FA для этой услуги.",
+    "purchase_form_error_alert_title": "Ошибка",
+    "purchase_form_buy_button_processing": "Обработка...",
+    "purchase_form_buy_button_prefix": "Купить за"
+  },
+  "category_page": {
+    "home_breadcrumb": "Главная",
+    "shop_breadcrumb": "Магазин",
+    "no_products_found": "В этой категории нет товаров.",
+    "category_not_found": "Категория не найдена."
+  },
+  "product_card": {
+    "view_options_button": "Выбрать опции",
+    "view_details_button": "Подробнее"
+  },
+  "category_card": {
+    "view_products_button": "Смотреть товары"
+  }
+}

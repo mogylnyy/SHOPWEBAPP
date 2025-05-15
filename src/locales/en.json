@@ -1,0 +1,96 @@
+
+{
+  "app_title": "QuickBuy TG",
+  "home_page": {
+    "subtitle": "Your one-stop shop for digital goods and services.",
+    "menu": {
+      "shop": {
+        "label": "Shop",
+        "description": "Browse our catalog of products and services."
+      },
+      "profile": {
+        "label": "Profile",
+        "description": "View your account details and order history."
+      },
+      "topUp": {
+        "label": "Top-Up",
+        "description": "Add funds to your account balance."
+      },
+      "help": {
+        "label": "Help/FAQ",
+        "description": "Get assistance and find answers quickly."
+      }
+    },
+    "goTo": "Go to",
+    "goToShort": "Go"
+  },
+  "header": {
+    "language_switcher_label": "Language"
+  },
+  "shop_page": {
+    "categories_title": "Product Categories",
+    "categories_subtitle": "Explore our range of digital products and services."
+  },
+  "profile_page": {
+    "title": "Your Profile",
+    "subtitle": "Manage your account details and view your activity.",
+    "current_balance": "Current Balance",
+    "top_up_button": "Top-Up Balance",
+    "order_history_button": "View Order History",
+    "logout_button": "Logout"
+  },
+  "top_up_page": {
+    "title": "Top-Up Balance",
+    "subtitle": "Add funds to your QuickBuy TG account.",
+    "lava_method": "Using Lava.io",
+    "lava_description": "Click the button below to proceed to Lava.io for a secure top-up.",
+    "lava_button": "Go to Lava.io",
+    "or_divider": "Or",
+    "qr_method": "Scan QR Code",
+    "qr_description": "Scan the QR code below with a compatible payment app. (This is a placeholder)"
+  },
+  "help_page": {
+    "title": "AI-Powered Help Center",
+    "subtitle": "Ask a question and our AI assistant will try to help you.",
+    "input_placeholder": "e.g., How do I top up my balance?",
+    "send_button_sr": "Send",
+    "thinking": "Thinking...",
+    "error_title": "Error",
+    "ai_response_title": "AI Response",
+    "solution_alert_title": "Potential Solution Found",
+    "solution_alert_description": "Our AI found a relevant solution. For more details, you might want to check our knowledge base or contact support.",
+    "footer_note": "AI responses are for informational purposes. For critical issues, please contact support."
+  },
+  "product_details_page": {
+    "home_breadcrumb": "Home",
+    "shop_breadcrumb": "Shop",
+    "select_option_title": "Select Option:",
+    "option_details_prefix": "Option Details:",
+    "loading_text": "Loading product...",
+    "purchase_form_title_prefix": "Purchase:",
+    "purchase_form_description_prefix": "Complete your purchase for",
+    "purchase_form_current_balance": "Your current balance:",
+    "purchase_form_login_label": "Login/Email",
+    "purchase_form_login_placeholder": "your_login",
+    "purchase_form_password_label": "Password",
+    "purchase_form_password_placeholder": "your_password",
+    "purchase_form_2fa_label": "Enable 2FA Processing",
+    "purchase_form_2fa_description": "Check if we need to handle a 2FA code for this service.",
+    "purchase_form_error_alert_title": "Error",
+    "purchase_form_buy_button_processing": "Processing...",
+    "purchase_form_buy_button_prefix": "Buy Now for"
+  },
+  "category_page": {
+    "home_breadcrumb": "Home",
+    "shop_breadcrumb": "Shop",
+    "no_products_found": "No products found in this category.",
+    "category_not_found": "Category not found."
+  },
+  "product_card": {
+    "view_options_button": "View Options",
+    "view_details_button": "View Details"
+  },
+  "category_card": {
+    "view_products_button": "View Products"
+  }
+}
