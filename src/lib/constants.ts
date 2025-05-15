@@ -1,3 +1,4 @@
+
 import type { Category, Product, UserProfile } from '@/types';
 
 export const APP_NAME = 'QuickBuy TG';
@@ -25,20 +26,6 @@ export const MOCK_CATEGORIES: Category[] = [
     description: 'Secure and anonymous proxy servers.',
     image: 'https://images.unsplash.com/photo-1604005366359-2f8f2a044336?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxuZXR3b3JrJTIwc2VydmVyfGVufDB8fHx8MTc0NzI5MTk4MHww&ixlib=rb-4.1.0&q=80&w=1080',
     dataAiHint: 'network server',
-  },
-  {
-    id: 'vpn',
-    name: 'VPN Services',
-    description: 'Reliable VPN for privacy and security.',
-    image: 'https://images.unsplash.com/photo-1522508115664-391162d98bd1?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxzZWN1cml0eSUyMHNoaWVsZHxlbnwwfHx8fDE3NDcyOTE5ODF8MA&ixlib=rb-4.1.0&q=80&w=1080',
-    dataAiHint: 'security shield',
-  },
-  {
-    id: 'game-accounts',
-    name: 'Game Accounts',
-    description: 'Pre-loaded and rare game accounts.',
-    image: 'https://images.unsplash.com/photo-1567027757540-7b572280fa22?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxnYW1pbmclMjBjb250cm9sbGVyfGVufDB8fHx8MTc0NzI5MTk3OXww&ixlib=rb-4.1.0&q=80&w=1080',
-    dataAiHint: 'gaming controller',
   },
 ];
 
@@ -103,7 +90,7 @@ export const MOCK_PRODUCTS: Product[] = [
     id: 'premium-vpn',
     name: 'Premium VPN Subscription',
     description: '1-year premium VPN access.',
-    category: 'vpn',
+    category: 'vpn', // This category ID will no longer match a displayed category
     image: 'https://placehold.co/600x400.png',
     dataAiHint: 'VPN lock',
     price: 60,
@@ -113,11 +100,11 @@ export const MOCK_PRODUCTS: Product[] = [
     id: 'steam-account',
     name: 'Steam Account (CS2 Prime)',
     description: 'Steam account with CS2 Prime status.',
-    category: 'game-accounts',
+    category: 'game-accounts', // This category ID will no longer match a displayed category
     image: 'https://placehold.co/600x400.png',
     dataAiHint: 'video game',
     price: 35,
-    requiresAuthDetails: false, // Typically delivered, not configured on existing
+    requiresAuthDetails: false, 
   },
 ];
 
