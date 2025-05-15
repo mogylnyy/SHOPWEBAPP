@@ -33,7 +33,7 @@ export const MOCK_PRODUCTS: Product[] = [
   {
     id: 'chatgpt',
     name: 'ChatGPT',
-    description: 'Advanced AI assistant by OpenAI.',
+    description: 'Продвинутый ИИ-ассистент от OpenAI.', // Translated
     category: 'neural-networks',
     image: 'https://placehold.co/600x400.png',
     dataAiHint: 'AI chat',
@@ -49,7 +49,7 @@ export const MOCK_PRODUCTS: Product[] = [
   {
     id: 'perplexity-ai',
     name: 'Perplexity AI',
-    description: 'Conversational search engine and AI research assistant.',
+    description: 'Разговорная поисковая система и ИИ-ассистент для исследований.', // Translated
     category: 'neural-networks',
     image: 'https://placehold.co/600x400.png', 
     dataAiHint: 'AI search',
@@ -110,3 +110,4 @@ export const LAVA_IO_TOP_UP_URL = 'https://lava.io/pay';
 export const LAVA_IO_QR_CODE_IMAGE = 'https://placehold.co/256x256.png'; 
 export const ADMIN_TELEGRAM_BOT_ID = 'YOUR_ADMIN_BOT_ID'; 
 export const ADMIN_TELEGRAM_CHAT_ID = 'YOUR_ADMIN_CHAT_ID'; 
+
