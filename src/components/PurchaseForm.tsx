@@ -3,7 +3,7 @@
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
-import { useActionState, useEffect, useState } from 'react';
+import { useActionState, useEffect, useState, startTransition } from 'react'; // Added startTransition
 import { z } from 'zod';
 import { Button } from '@/components/ui/button';
 import {
@@ -37,7 +37,7 @@ const purchaseFormSchemaBase = z.object({
 });
 
 const authDetailsSchema = z.object({
-  login: z.string().min(1, 'Логин обязателен.'), 
+  login: z.string().min(1, 'Логин обязателен.'),
   password: z.string().min(1, 'Пароль обязателен.'),
   twoFactorEnabled: z.boolean().default(false),
 });
@@ -54,7 +54,7 @@ export default function PurchaseForm({ product, selectedSubProduct }: PurchaseFo
   const { t, locale } = useTranslation(params.locale as Locale);
 
   const [showAuthFields, setShowAuthFields] = useState(product.requiresAuthDetails || false);
-  
+
   const finalPrice = selectedSubProduct?.price ?? product.price ?? 0;
 
   const currentFormSchema = showAuthFields
@@ -77,7 +77,7 @@ export default function PurchaseForm({ product, selectedSubProduct }: PurchaseFo
         })
       )
     : purchaseFormSchemaBase;
-  
+
   type PurchaseFormValues = z.infer<typeof currentFormSchema>;
 
   const form = useForm<PurchaseFormValues>({
@@ -94,7 +94,8 @@ export default function PurchaseForm({ product, selectedSubProduct }: PurchaseFo
     },
   });
 
-  const [state, formAction] = useActionState<PurchaseFormState | undefined, FormData>(initiatePurchase, undefined);
+  // Destructure isPending from useActionState
+  const [state, formAction, isPending] = useActionState<PurchaseFormState | undefined, FormData>(initiatePurchase, undefined);
   const [userBalance, setUserBalance] = useState(MOCK_USER_PROFILE.balance);
 
   useEffect(() => {
@@ -113,7 +114,7 @@ export default function PurchaseForm({ product, selectedSubProduct }: PurchaseFo
     if (state?.success && state.redirectToPath) {
       toast({
         title: t('product_details_page.purchase_form_purchase_successful_title'),
-        description: state.message, 
+        description: state.message,
       });
       router.push(state.redirectToPath);
       setUserBalance(currentBalance => currentBalance - finalPrice); // Update balance locally
@@ -121,13 +122,13 @@ export default function PurchaseForm({ product, selectedSubProduct }: PurchaseFo
       const isInsufficientBalanceError = state.errors?.general?.includes(t('product_details_page.purchase_form_insufficient_balance_description'));
       toast({
         title: isInsufficientBalanceError ? t('product_details_page.purchase_form_insufficient_balance_title') : t('product_details_page.purchase_form_purchase_failed_title'),
-        description: state.message, // The message from action should already be translated or be a key
+        description: state.message,
         variant: 'destructive',
       });
       if(isInsufficientBalanceError){
         setTimeout(() => router.push(`/${locale}${PATHS.TOP_UP}`), 2000);
       }
-    } else if (state?.errors && !state.success) { 
+    } else if (state?.errors && !state.success) {
         toast({
             title: t('product_details_page.purchase_form_purchase_failed_title'),
             description: state.message || t('product_details_page.purchase_form_invalid_data_message'),
@@ -154,7 +155,10 @@ export default function PurchaseForm({ product, selectedSubProduct }: PurchaseFo
         }
       });
       formData.append('locale', locale);
-      formAction(formData);
+      // Wrap formAction call in startTransition
+      startTransition(() => {
+        formAction(formData);
+      });
     })();
   };
 
@@ -230,7 +234,7 @@ export default function PurchaseForm({ product, selectedSubProduct }: PurchaseFo
                 />
               </>
             )}
-            
+
             {state?.message && !state.success && state.errors?.general && (
                  <Alert variant="destructive">
                    <Terminal className="h-4 w-4" />
@@ -243,8 +247,9 @@ export default function PurchaseForm({ product, selectedSubProduct }: PurchaseFo
 
           </CardContent>
           <CardFooter>
-            <Button type="submit" className="w-full btn-glow" disabled={form.formState.isSubmitting || userBalance < finalPrice}>
-              {form.formState.isSubmitting ? t('product_details_page.purchase_form_buy_button_processing') : `${t('product_details_page.purchase_form_buy_button_prefix')} ${finalPrice.toFixed(2)} ₽`}
+            {/* Use isPending from useActionState for disabled and text state */}
+            <Button type="submit" className="w-full btn-glow" disabled={isPending || userBalance < finalPrice}>
+              {isPending ? t('product_details_page.purchase_form_buy_button_processing') : `${t('product_details_page.purchase_form_buy_button_prefix')} ${finalPrice.toFixed(2)} ₽`}
             </Button>
           </CardFooter>
         </form>
