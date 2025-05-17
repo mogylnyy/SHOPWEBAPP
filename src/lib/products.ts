@@ -15,10 +15,11 @@ function mapDbProductToProduct(dbProduct: any): Product {
   };
 }
 
-export async function getProductsByCategory(categoryId: string): Promise<Product[]> {
+export async function getProductsByCategory(categoryCode: string): Promise<Product[]> {
   const dbProducts = await prisma.products.findMany({
-    where: { category: categoryId, active: true },
+    where: { category: { code: categoryCode }, active: true },
     orderBy: { id: 'asc' },
+    include: { category: true },
   });
   return dbProducts.map(mapDbProductToProduct);
 } 
