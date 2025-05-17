@@ -40,7 +40,8 @@ model products {
   name        String    @db.VarChar(100)
   description String?
   price       Decimal   @db.Decimal(10, 2)
-  category    String    @db.VarChar(32)
+  category_id Int?
+  category    categories? @relation(fields: [category_id], references: [id], name: "CategoryProducts")
   active      Boolean?  @default(true)
   created_at  DateTime? @default(now()) @db.Timestamp(6)
   image       String?   @db.VarChar(255)
@@ -71,4 +72,15 @@ model users {
   created_at  DateTime?  @default(now()) @db.Timestamp(6)
   balances    balances[]
   orders      orders[]
+}
+
+model categories {
+  id          Int        @id @default(autoincrement())
+  code        String     @unique @db.VarChar(64)
+  name        String     @db.VarChar(100)
+  description String?
+  image       String?
+  active      Boolean?   @default(true)
+  created_at  DateTime?  @default(now()) @db.Timestamp(6)
+  products    products[] @relation("CategoryProducts")
 }
