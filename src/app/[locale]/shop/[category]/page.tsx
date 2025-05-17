@@ -1,21 +1,17 @@
-
 import ProductCard from '@/components/ProductCard';
-import { MOCK_CATEGORIES, MOCK_PRODUCTS, PATHS } from '@/lib/constants';
+import { MOCK_CATEGORIES, PATHS } from '@/lib/constants';
 import type { Category, Product } from '@/types';
 import Link from 'next/link';
 import { ChevronRight, Home } from 'lucide-react';
 import { getTranslations } from '@/lib/i18n-server';
 import type { Locale } from '@/lib/i18n-config';
 import { i18n } from '@/lib/i18n-config';
+import { getProductsByCategory } from '@/lib/products';
 
 
 // Simulate API calls
 async function getCategoryDetails(categoryId: string): Promise<Category | undefined> {
   return Promise.resolve(MOCK_CATEGORIES.find(cat => cat.id === categoryId));
-}
-
-async function getProductsByCategory(categoryId: string): Promise<Product[]> {
-  return Promise.resolve(MOCK_PRODUCTS.filter(prod => prod.category === categoryId));
 }
 
 export default async function CategoryProductsPage({ params }: { params: { category: string; locale: Locale } }) {
